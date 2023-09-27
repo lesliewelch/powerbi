@@ -1,2 +1,2 @@
 # powerbi
-Power BI Resources and Training
+Resources are public and shareable, created to support training and talks within the Power BI community. 
