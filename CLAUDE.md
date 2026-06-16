@@ -78,7 +78,7 @@ Two phases. Phase A is pure TMDL (do this with Claude Code). Phase B is the Prep
 
 ### Phase B: Prep data for AI (Desktop UI, then commit serialized output)
 9. AI data schema: expose and hide fields exactly as in `docs/ai_data_schema.md`.
-10. AI instructions: paste the business rules block from `docs/measure_catalog.md` (the "Key Business Rules and Model Notes" section).
+10. AI instructions: paste the "Key Business Rules and Model Notes" section from `measure_catalog.md` into Prep data for AI, AI instructions tab. This block is written and ready to paste as is. It encodes the measure definitions, the Net Price versus List Price rule, the actual versus reference cost rule, the orders versus lines versus quantity distinction, the online store note (Store 999999), the hidden currency table, and the general margin data quality rule. It deliberately does not name the seeded anomaly (no store number, month, or cost detail), so keep it that way when editing. No em dashes.
 11. Verified answers: defer to the testing pass, once we know which prompts land. Do not build these yet.
 
 Note on Phase B: authoring of the AI data schema and AI instructions is done in the Prep data for AI UI in Power BI Desktop. After applying, commit whatever the model serializes so it is versioned. Do not hand-author these blocks blind in TMDL unless we confirm the serialization format first.
