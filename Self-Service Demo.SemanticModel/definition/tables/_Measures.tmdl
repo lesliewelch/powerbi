@@ -11,12 +11,12 @@ table _Measures
 		annotation SummarizationSetBy = Automatic
 
 	/// Total revenue from all sales lines, calculated as the sum of Quantity times Net Price. Net Price is the actual selling price after discount, not the list price. This is the numerator for margin.
-	measure Revenue = SUMX(Sales, Sales[Quantity] * Sales[NetPrice])
+	measure Revenue = SUMX(Sales, Sales[Quantity] * Sales[Net Price])
 		formatString: $#,##0.00
 		displayFolder: Revenue and Margin
 
 	/// Total cost of goods sold across all sales lines, calculated as the sum of Quantity times Unit Cost. This is the landed cost on the sale, not the reference catalog cost from the product table.
-	measure Cost = SUMX(Sales, Sales[Quantity] * Sales[UnitCost])
+	measure Cost = SUMX(Sales, Sales[Quantity] * Sales[Unit Cost])
 		formatString: $#,##0.00
 		displayFolder: Revenue and Margin
 

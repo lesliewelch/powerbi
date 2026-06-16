@@ -3,6 +3,7 @@ table Product
 
 	column ProductKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 11675654-0722-4347-97e8-96e72751e28a
 		summarizeBy: none
@@ -10,7 +11,8 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
-	column ProductCode
+	/// Business code or SKU that identifies the product.
+	column 'Product Code'
 		dataType: int64
 		formatString: 0
 		lineageTag: 4022ed68-528e-4ccd-9a29-260d2656a702
@@ -19,7 +21,8 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
-	column ProductName
+	/// Descriptive name of the product.
+	column 'Product Name'
 		dataType: string
 		lineageTag: 8683ea5a-1566-4299-b116-b6f825b502bd
 		summarizeBy: none
@@ -27,6 +30,7 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Company that makes the product.
 	column Manufacturer
 		dataType: string
 		lineageTag: 5ad6e026-ea0d-4fe3-ad76-ca08fce5cc72
@@ -35,6 +39,7 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Brand the product is sold under.
 	column Brand
 		dataType: string
 		lineageTag: 77c79aa5-1b73-4a4e-9f64-47b60ed36c1b
@@ -43,6 +48,7 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Product color.
 	column Color
 		dataType: string
 		lineageTag: 74322f51-3065-4baa-bbf8-43257bbb713b
@@ -51,7 +57,8 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
-	column WeightUnit
+	/// Unit of measure for product weight, such as ounces or pounds.
+	column 'Weight Unit'
 		dataType: string
 		lineageTag: adf803a7-deab-483d-95c8-b82f207f60e3
 		summarizeBy: none
@@ -59,6 +66,7 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Product weight, in the unit shown by Weight Unit.
 	column Weight
 		dataType: double
 		lineageTag: 0a4db973-e85c-40d2-a2ba-4fbb9391869b
@@ -69,8 +77,10 @@ table Product
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column Cost
+	/// Reference standard unit cost from the product catalog. Actual cost on a sale comes from Unit Cost in Sales.
+	column 'Product Standard Cost'
 		dataType: double
+		isHidden
 		lineageTag: bc59fd08-7232-4aab-9b77-c8b612b4f5c0
 		summarizeBy: none
 		sourceColumn: Cost
@@ -79,8 +89,10 @@ table Product
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column Price
+	/// Reference catalog list price from the product record. Actual selling price comes from Net Price in Sales.
+	column 'Product List Price'
 		dataType: double
+		isHidden
 		lineageTag: 2d23c370-c42a-4ed8-9123-b5460bb24f47
 		summarizeBy: none
 		sourceColumn: Price
@@ -91,6 +103,7 @@ table Product
 
 	column CategoryKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5e910527-85b8-468b-b5ef-fe60dee62c05
 		summarizeBy: none
@@ -98,7 +111,8 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
-	column CategoryName
+	/// High-level product category.
+	column Category
 		dataType: string
 		lineageTag: 5ef63b8f-c564-4d1f-9b17-5221aecf6f38
 		summarizeBy: none
@@ -108,6 +122,7 @@ table Product
 
 	column SubCategoryKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e969292c-28d7-41c9-b5aa-6f91b7d372a2
 		summarizeBy: none
@@ -115,7 +130,8 @@ table Product
 
 		annotation SummarizationSetBy = Automatic
 
-	column SubCategoryName
+	/// More specific product grouping within a category.
+	column Subcategory
 		dataType: string
 		lineageTag: 06e278bf-e29d-42ec-b089-fccc3f7d4ca7
 		summarizeBy: none

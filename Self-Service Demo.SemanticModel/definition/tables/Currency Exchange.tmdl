@@ -1,4 +1,5 @@
 table 'Currency Exchange'
+	isHidden
 	lineageTag: b0599c30-d8ce-457b-8204-54415a899f27
 
 	column Date

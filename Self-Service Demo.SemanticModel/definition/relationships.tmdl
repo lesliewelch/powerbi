@@ -11,11 +11,11 @@ relationship AutoDetected_089dd9d8-8075-4d48-ace3-b5af1300a9d0
 	toColumn: Store.StoreKey
 
 relationship Date_Sales_OrderDate
-	fromColumn: Sales.OrderDate
+	fromColumn: Sales.'Order Date'
 	toColumn: Date.Date
 
 relationship Date_Sales_DeliveryDate
 	isActive: false
-	fromColumn: Sales.DeliveryDate
+	fromColumn: Sales.'Delivery Date'
 	toColumn: Date.Date
 

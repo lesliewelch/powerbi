@@ -3,6 +3,7 @@ table Sales
 
 	column OrderKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 42342bc9-3682-4a35-a929-516385484fb8
 		summarizeBy: count
@@ -12,6 +13,7 @@ table Sales
 
 	column LineNumber
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 96c95268-0e4c-4207-b6db-1ba24fe314f6
 		summarizeBy: sum
@@ -19,7 +21,8 @@ table Sales
 
 		annotation SummarizationSetBy = Automatic
 
-	column OrderDate
+	/// Date the order was placed. This is the primary date for sales and trend analysis.
+	column 'Order Date'
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: 6a6dae1b-947b-40af-8fac-d7363ed45a4c
@@ -30,7 +33,8 @@ table Sales
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column DeliveryDate
+	/// Date the order was delivered to the customer.
+	column 'Delivery Date'
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: 0fdb0f74-82ab-48ee-9c5a-f770c5bebe7e
@@ -43,6 +47,7 @@ table Sales
 
 	column CustomerKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 51e86a78-4219-42b1-ac7d-741228687b3a
 		summarizeBy: none
@@ -52,6 +57,7 @@ table Sales
 
 	column StoreKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 81c6070a-ecc1-4103-ae14-b094d1ae15c2
 		summarizeBy: none
@@ -61,6 +67,7 @@ table Sales
 
 	column ProductKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4af59626-27cb-48f9-8a41-b60e9b2742f5
 		summarizeBy: none
@@ -68,6 +75,7 @@ table Sales
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Number of units sold on the line.
 	column Quantity
 		dataType: int64
 		formatString: 0
@@ -77,7 +85,8 @@ table Sales
 
 		annotation SummarizationSetBy = Automatic
 
-	column UnitPrice
+	/// Catalog list price per unit before any discount. For the actual price paid, use Net Price.
+	column 'List Price'
 		dataType: double
 		lineageTag: 454f770e-6b71-42a5-96f9-e509de6b74cd
 		summarizeBy: sum
@@ -87,7 +96,8 @@ table Sales
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column NetPrice
+	/// Actual selling price per unit after discount. Line revenue equals Quantity times Net Price.
+	column 'Net Price'
 		dataType: double
 		lineageTag: f809b8a0-1285-481a-9a36-61324ef1e996
 		summarizeBy: sum
@@ -97,7 +107,8 @@ table Sales
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column UnitCost
+	/// Cost to the company per unit. Line cost equals Quantity times Unit Cost, and gross margin is revenue minus cost.
+	column 'Unit Cost'
 		dataType: double
 		lineageTag: e1fda103-5557-46a1-ad52-2c302f990e42
 		summarizeBy: sum
@@ -107,7 +118,8 @@ table Sales
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column CurrencyCode
+	/// Currency the order was transacted in.
+	column Currency
 		dataType: string
 		lineageTag: ff835ba2-b970-42f6-9917-112e007cc7d3
 		summarizeBy: none
@@ -115,7 +127,8 @@ table Sales
 
 		annotation SummarizationSetBy = Automatic
 
-	column ExchangeRate
+	/// Rate applied to convert the order currency to the reporting currency.
+	column 'Exchange Rate'
 		dataType: double
 		lineageTag: ab842259-e9a0-4805-b0db-7530b9534833
 		summarizeBy: sum

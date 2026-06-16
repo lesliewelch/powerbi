@@ -3,6 +3,7 @@ table Store
 
 	column StoreKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 31b65932-335e-4144-aa14-d5acd38e868b
 		summarizeBy: none
@@ -10,7 +11,8 @@ table Store
 
 		annotation SummarizationSetBy = Automatic
 
-	column StoreCode
+	/// Business code for the store.
+	column 'Store Code'
 		dataType: int64
 		formatString: 0
 		lineageTag: 6cf00131-7c40-4496-ad85-a197823be943
@@ -21,6 +23,7 @@ table Store
 
 	column GeoAreaKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: dcdb874b-1c51-4f3c-a9d2-f12e763792cb
 		summarizeBy: none
@@ -30,13 +33,15 @@ table Store
 
 	column CountryCode
 		dataType: string
+		isHidden
 		lineageTag: 33f45145-f709-46a1-8b8f-960f063249cd
 		summarizeBy: none
 		sourceColumn: CountryCode
 
 		annotation SummarizationSetBy = Automatic
 
-	column CountryName
+	/// Country where the store operates.
+	column 'Store Country'
 		dataType: string
 		lineageTag: b39f30a9-4379-4982-93e3-d4c0f3ee876a
 		summarizeBy: none
@@ -44,7 +49,8 @@ table Store
 
 		annotation SummarizationSetBy = Automatic
 
-	column State
+	/// State or region where the store operates.
+	column 'Store State'
 		dataType: string
 		lineageTag: ee403b2d-fbc0-45c0-aef6-262d7218072d
 		summarizeBy: none
@@ -52,7 +58,8 @@ table Store
 
 		annotation SummarizationSetBy = Automatic
 
-	column OpenDate
+	/// Date the store opened.
+	column 'Store Open Date'
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: c1070b60-8418-41ea-b447-2c7286a543e5
@@ -63,7 +70,8 @@ table Store
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column CloseDate
+	/// Date the store closed. Blank if the store is still open.
+	column 'Store Close Date'
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: ea00f615-5d03-4606-bdd5-f595dbc599b1
@@ -74,7 +82,8 @@ table Store
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Description
+	/// Display name of the store, such as Contoso Store Kansas.
+	column 'Store Name'
 		dataType: string
 		lineageTag: f6bc82bc-ce30-443e-b00f-7c74a5c430f2
 		summarizeBy: none
@@ -82,7 +91,8 @@ table Store
 
 		annotation SummarizationSetBy = Automatic
 
-	column SquareMeters
+	/// Selling floor area of the store in square meters.
+	column 'Store Size (sq m)'
 		dataType: int64
 		formatString: 0
 		lineageTag: 7d876622-9ad1-4001-8e0c-a4f0fb49ad33
@@ -91,7 +101,8 @@ table Store
 
 		annotation SummarizationSetBy = Automatic
 
-	column Status
+	/// Operational status of the store, such as Open, Closed, or Restructured.
+	column 'Store Status'
 		dataType: string
 		lineageTag: 6e339d94-4f64-4b42-8af8-93670c3cb8d0
 		summarizeBy: none

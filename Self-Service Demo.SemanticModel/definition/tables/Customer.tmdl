@@ -3,6 +3,7 @@ table Customer
 
 	column CustomerKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 14ba8a0b-9bf4-4f47-93fe-e2c6eba9b5ac
 		summarizeBy: none
@@ -12,6 +13,7 @@ table Customer
 
 	column GeoAreaKey
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 66d536c0-4f8e-4355-b24f-687f3a7eb2e9
 		summarizeBy: none
@@ -21,6 +23,7 @@ table Customer
 
 	column StartDT
 		dataType: dateTime
+		isHidden
 		formatString: Long Date
 		lineageTag: 4dd2bb89-01be-49be-9d3d-364b731f5e2d
 		summarizeBy: none
@@ -32,6 +35,7 @@ table Customer
 
 	column EndDT
 		dataType: dateTime
+		isHidden
 		formatString: Long Date
 		lineageTag: 868f885b-edac-4477-995f-994b0a5ce096
 		summarizeBy: none
@@ -41,7 +45,8 @@ table Customer
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Continent
+	/// Continent where the customer is located.
+	column 'Customer Continent'
 		dataType: string
 		lineageTag: af29b35a-99f6-4508-8ff0-5dd04af09ea3
 		summarizeBy: none
@@ -49,7 +54,8 @@ table Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column Gender
+	/// Customer gender.
+	column 'Customer Gender'
 		dataType: string
 		lineageTag: d5788acb-a796-4b2b-b596-3c91100729da
 		summarizeBy: none
@@ -59,13 +65,15 @@ table Customer
 
 	column Title
 		dataType: string
+		isHidden
 		lineageTag: 93300c98-123e-4f6d-85be-cceabb242c1c
 		summarizeBy: none
 		sourceColumn: Title
 
 		annotation SummarizationSetBy = Automatic
 
-	column GivenName
+	/// Customer first name.
+	column 'First Name'
 		dataType: string
 		lineageTag: e7a88acf-5171-4fef-b444-4867b8584897
 		summarizeBy: none
@@ -75,13 +83,15 @@ table Customer
 
 	column MiddleInitial
 		dataType: string
+		isHidden
 		lineageTag: 770dad0a-6246-4801-9e76-5bf318306f85
 		summarizeBy: none
 		sourceColumn: MiddleInitial
 
 		annotation SummarizationSetBy = Automatic
 
-	column Surname
+	/// Customer last name.
+	column 'Last Name'
 		dataType: string
 		lineageTag: 70850c4e-aec3-47d4-8a25-793647cacc0f
 		summarizeBy: none
@@ -91,13 +101,15 @@ table Customer
 
 	column StreetAddress
 		dataType: string
+		isHidden
 		lineageTag: 3791aa11-97d7-48e3-9cbe-6de0b9888a0b
 		summarizeBy: none
 		sourceColumn: StreetAddress
 
 		annotation SummarizationSetBy = Automatic
 
-	column City
+	/// City where the customer is located.
+	column 'Customer City'
 		dataType: string
 		lineageTag: cb65213b-f821-43f7-85a2-14c29ae95f33
 		summarizeBy: none
@@ -107,13 +119,15 @@ table Customer
 
 	column State
 		dataType: string
+		isHidden
 		lineageTag: 9a5793ac-7785-4bda-bd55-0411f06163af
 		summarizeBy: none
 		sourceColumn: State
 
 		annotation SummarizationSetBy = Automatic
 
-	column StateFull
+	/// State or region where the customer is located.
+	column 'Customer State'
 		dataType: string
 		lineageTag: 40348c6e-a778-4193-8d2f-2d1c9c5d744a
 		summarizeBy: none
@@ -121,7 +135,8 @@ table Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column ZipCode
+	/// Postal code for the customer.
+	column 'Customer Zip'
 		dataType: int64
 		formatString: 0
 		lineageTag: ef854e6a-2e7b-45f9-be2d-987ee9b3f313
@@ -132,13 +147,15 @@ table Customer
 
 	column Country
 		dataType: string
+		isHidden
 		lineageTag: 3a9ddf50-d24d-4048-ae9d-35ed3a858786
 		summarizeBy: none
 		sourceColumn: Country
 
 		annotation SummarizationSetBy = Automatic
 
-	column CountryFull
+	/// Country where the customer is located.
+	column 'Customer Country'
 		dataType: string
 		lineageTag: 0a8698fd-6256-415d-aca0-070b67eafdc3
 		summarizeBy: none
@@ -146,7 +163,8 @@ table Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column Birthday
+	/// Customer date of birth.
+	column 'Customer Birthday'
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: fdc77d63-3703-4577-a9e1-bf22bb5d8c10
@@ -157,7 +175,8 @@ table Customer
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Age
+	/// Customer age in years.
+	column 'Customer Age'
 		dataType: int64
 		formatString: 0
 		lineageTag: 6c01aabb-b831-4e7e-b047-8afd95a50650
@@ -166,7 +185,8 @@ table Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column Occupation
+	/// Customer occupation or job.
+	column 'Customer Occupation'
 		dataType: string
 		lineageTag: e323181d-049d-4946-b95a-e3a9f78d3b25
 		summarizeBy: none
@@ -174,7 +194,8 @@ table Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column Company
+	/// Customer employer or company.
+	column 'Customer Company'
 		dataType: string
 		lineageTag: 0550cb1f-39a3-477d-a56b-99d98725ad12
 		summarizeBy: none
@@ -184,6 +205,7 @@ table Customer
 
 	column Vehicle
 		dataType: string
+		isHidden
 		lineageTag: 074ec4c0-c301-42ff-bfb5-95621619426c
 		summarizeBy: none
 		sourceColumn: Vehicle
@@ -192,6 +214,7 @@ table Customer
 
 	column Latitude
 		dataType: double
+		isHidden
 		lineageTag: 1b085e08-c885-41e9-93e1-b5a3f4cc4240
 		summarizeBy: none
 		sourceColumn: Latitude
@@ -202,6 +225,7 @@ table Customer
 
 	column Longitude
 		dataType: double
+		isHidden
 		lineageTag: bb9b2cde-cbfb-4b77-8785-199fa77798d8
 		summarizeBy: none
 		sourceColumn: Longitude
