@@ -1,8 +1,10 @@
 table Date
+	dataCategory: Time
 	lineageTag: 1d198d32-7a29-42e0-b347-4200c76fd0f2
 
 	column Date
 		dataType: dateTime
+		isKey
 		formatString: Long Date
 		lineageTag: fb07f1ce-a577-4aac-a458-e1c7deaa1afd
 		summarizeBy: none
