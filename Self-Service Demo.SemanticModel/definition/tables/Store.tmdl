@@ -1,0 +1,127 @@
+table Store
+	lineageTag: da42accd-76b5-4c84-b82b-7b6b8fa3b85d
+
+	column StoreKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 31b65932-335e-4144-aa14-d5acd38e868b
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Business code for the store.
+	column 'Store Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cf00131-7c40-4496-ad85-a197823be943
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeoAreaKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dcdb874b-1c51-4f3c-a9d2-f12e763792cb
+		summarizeBy: none
+		sourceColumn: GeoAreaKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryCode
+		dataType: string
+		isHidden
+		lineageTag: 33f45145-f709-46a1-8b8f-960f063249cd
+		summarizeBy: none
+		sourceColumn: CountryCode
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Country where the store operates.
+	column 'Store Country'
+		dataType: string
+		lineageTag: b39f30a9-4379-4982-93e3-d4c0f3ee876a
+		summarizeBy: none
+		sourceColumn: CountryName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// State or region where the store operates.
+	column 'Store State'
+		dataType: string
+		lineageTag: ee403b2d-fbc0-45c0-aef6-262d7218072d
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date the store opened.
+	column 'Store Open Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c1070b60-8418-41ea-b447-2c7286a543e5
+		summarizeBy: none
+		sourceColumn: OpenDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Date the store closed. Blank if the store is still open.
+	column 'Store Close Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ea00f615-5d03-4606-bdd5-f595dbc599b1
+		summarizeBy: none
+		sourceColumn: CloseDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Display name of the store, such as Contoso Store Kansas.
+	column 'Store Name'
+		dataType: string
+		lineageTag: f6bc82bc-ce30-443e-b00f-7c74a5c430f2
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Selling floor area of the store in square meters.
+	column 'Store Size (sq m)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d876622-9ad1-4001-8e0c-a4f0fb49ad33
+		summarizeBy: none
+		sourceColumn: SquareMeters
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Operational status of the store, such as Open, Closed, or Restructured.
+	column 'Store Status'
+		dataType: string
+		lineageTag: 6e339d94-4f64-4b42-8af8-93670c3cb8d0
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Store = m
+		mode: import
+		queryGroup: CSV
+		source =
+				let
+				    Source = Source,
+				    CSVData = Source{8}[CSVData],
+				    #"Changed Type" = Table.TransformColumnTypes(CSVData,{{"StoreKey", Int64.Type}, {"StoreCode", Int64.Type}, {"GeoAreaKey", Int64.Type}, {"CountryCode", type text}, {"CountryName", type text}, {"State", type text}, {"OpenDate", type date}, {"CloseDate", type date}, {"Description", type text}, {"SquareMeters", Int64.Type}, {"Status", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

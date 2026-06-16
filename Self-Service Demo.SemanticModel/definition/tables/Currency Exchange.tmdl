@@ -1,0 +1,56 @@
+table 'Currency Exchange'
+	isHidden
+	lineageTag: b0599c30-d8ce-457b-8204-54415a899f27
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e467d31a-06fb-4b0f-a15b-91420c3e350d
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column FromCurrency
+		dataType: string
+		lineageTag: a5451c0f-8f62-4591-8725-ef0603777f93
+		summarizeBy: none
+		sourceColumn: FromCurrency
+
+		annotation SummarizationSetBy = Automatic
+
+	column ToCurrency
+		dataType: string
+		lineageTag: 2e849c27-fb85-432c-a768-c4ac5ca580bf
+		summarizeBy: none
+		sourceColumn: ToCurrency
+
+		annotation SummarizationSetBy = Automatic
+
+	column Exchange
+		dataType: double
+		lineageTag: 695e7edf-81bc-4351-aed8-ceaab38fea6f
+		summarizeBy: sum
+		sourceColumn: Exchange
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Currency Exchange' = m
+		mode: import
+		queryGroup: CSV
+		source =
+				let
+				    Source = Source,
+				    CSVData = Source{0}[CSVData],
+				    #"Changed Type" = Table.TransformColumnTypes(CSVData,{{"Date", type date}, {"FromCurrency", type text}, {"ToCurrency", type text}, {"Exchange", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

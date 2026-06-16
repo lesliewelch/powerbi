@@ -1,0 +1,21 @@
+relationship AutoDetected_9f8241fb-54a5-440e-b36c-d2f3aaf1d392
+	fromColumn: Sales.CustomerKey
+	toColumn: Customer.CustomerKey
+
+relationship AutoDetected_f7ecbb14-f3d6-4755-8c0b-7f938433fc14
+	fromColumn: Sales.ProductKey
+	toColumn: Product.ProductKey
+
+relationship AutoDetected_089dd9d8-8075-4d48-ace3-b5af1300a9d0
+	fromColumn: Sales.StoreKey
+	toColumn: Store.StoreKey
+
+relationship Date_Sales_OrderDate
+	fromColumn: Sales.'Order Date'
+	toColumn: Date.Date
+
+relationship Date_Sales_DeliveryDate
+	isActive: false
+	fromColumn: Sales.'Delivery Date'
+	toColumn: Date.Date
+

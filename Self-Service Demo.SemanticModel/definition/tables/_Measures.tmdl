@@ -1,0 +1,76 @@
+table _Measures
+	lineageTag: c765a2ed-a582-4c4e-88aa-534c96d96829
+
+	column Blank
+		dataType: string
+		isHidden
+		lineageTag: 5ccd3cbf-8379-4441-9c92-164b5ed28256
+		summarizeBy: none
+		sourceColumn: Blank
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Total revenue from all sales lines, calculated as the sum of Quantity times Net Price. Net Price is the actual selling price after discount, not the list price. This is the numerator for margin.
+	measure Revenue = SUMX(Sales, Sales[Quantity] * Sales[Net Price])
+		formatString: $#,##0.00
+		displayFolder: Revenue and Margin
+
+	/// Total cost of goods sold across all sales lines, calculated as the sum of Quantity times Unit Cost. This is the landed cost on the sale, not the reference catalog cost from the product table.
+	measure Cost = SUMX(Sales, Sales[Quantity] * Sales[Unit Cost])
+		formatString: $#,##0.00
+		displayFolder: Revenue and Margin
+
+	/// Absolute gross profit in dollars, calculated as Revenue minus Cost. A negative value means the company is selling below cost, which signals a cost data problem rather than a pricing decision.
+	measure 'Gross Margin' = [Revenue] - [Cost]
+		formatString: $#,##0.00
+		displayFolder: Revenue and Margin
+
+	/// Gross margin as a percentage of revenue. Normal range is about 55 to 57 percent. A dip below 50 percent or a negative value points to a cost feed or data quality issue, not a sales issue. This is the primary measure for spotting anomalies.
+	measure 'Gross Margin %' = DIVIDE([Revenue] - [Cost], [Revenue])
+		formatString: 0.0%
+		displayFolder: Revenue and Margin
+
+	/// Number of distinct orders. One order can contain multiple lines. Use this for order frequency, and use Quantity for unit volume.
+	measure Orders = DISTINCTCOUNT(Sales[OrderKey])
+		formatString: #,##0
+		displayFolder: Orders and Volume
+
+	/// Number of order lines, where each product within each order counts as one line. The most granular transactional count.
+	measure Lines = COUNTROWS(Sales)
+		formatString: #,##0
+		displayFolder: Orders and Volume
+
+	/// Total units sold across all orders.
+	measure 'Total Quantity' = SUM(Sales[Quantity])
+		formatString: #,##0
+		displayFolder: Orders and Volume
+
+	/// Average revenue per order, calculated as Revenue divided by Orders. Useful for spotting pricing or volume shifts that revenue alone can hide.
+	measure 'Average Order Value' = DIVIDE([Revenue], [Orders])
+		formatString: $#,##0.00
+		displayFolder: Orders and Volume
+
+	/// Year to date revenue from January 1 to the current date in filter context. Resets each calendar year.
+	measure 'Revenue YTD' = CALCULATE([Revenue], DATESYTD('Date'[Date]))
+		formatString: $#,##0.00
+		displayFolder: Time Intelligence
+
+	/// Month over month change in gross margin percentage, in percentage points. Near zero every normal month. A large negative value flags a sudden margin break, which is the signature of the seeded anomaly in September 2025.
+	measure 'Gross Margin % MoM Change' =
+			VAR ThisMonth = [Gross Margin %]
+			VAR PriorMonth = CALCULATE([Gross Margin %], DATEADD('Date'[Date], -1, MONTH))
+			RETURN IF(ISBLANK(PriorMonth), BLANK(), ThisMonth - PriorMonth)
+		formatString: 0.0%
+		displayFolder: Time Intelligence
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Blank = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Blank", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

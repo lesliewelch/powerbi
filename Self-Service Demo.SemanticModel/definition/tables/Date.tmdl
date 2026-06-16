@@ -1,0 +1,193 @@
+table Date
+	dataCategory: Time
+	lineageTag: 1d198d32-7a29-42e0-b347-4200c76fd0f2
+
+	/// Calendar date.
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: fb07f1ce-a577-4aac-a458-e1c7deaa1afd
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b3e532f8-7c8e-46f0-b0a0-596a9eacfcb1
+		summarizeBy: count
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar year.
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7992d0bf-5024-474f-8b17-7343bfcdaba9
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		isHidden
+		lineageTag: 559e6593-7826-4ed1-a1fb-1531f9897616
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarterNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7762442f-86ff-4fbf-b9e5-8e0978775697
+		summarizeBy: sum
+		sourceColumn: YearQuarterNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar quarter, such as Q3.
+	column Quarter
+		dataType: string
+		lineageTag: 7ce3dcde-0dd9-45fb-848d-8ae46fd5f72b
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Year and month label, such as 2025-Sep.
+	column 'Year-Month'
+		dataType: dateTime
+		sortByColumn: YearMonthNumber
+		formatString: Long Date
+		lineageTag: cd997480-dcf2-4905-8ec6-fa0c0ff04673
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column YearMonthShort
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 60f05543-e050-44ec-97ef-1e9e850b6705
+		summarizeBy: none
+		sourceColumn: YearMonthShort
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column YearMonthNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d079d3ce-36e6-455b-b88a-77e8a32b93a9
+		summarizeBy: sum
+		sourceColumn: YearMonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Month name.
+	column Month
+		dataType: string
+		sortByColumn: MonthNumber
+		lineageTag: ff9474f3-f354-485a-8afb-bab542b042dc
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthShort
+		dataType: string
+		isHidden
+		lineageTag: 55de0cc6-df93-48e2-87fb-ebc7f2e007c9
+		summarizeBy: none
+		sourceColumn: MonthShort
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d8b5b4d8-d98e-4dc3-bda8-4aaef35da27d
+		summarizeBy: sum
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Day name, such as Monday.
+	column 'Day of Week'
+		dataType: string
+		sortByColumn: DayofWeekNumber
+		lineageTag: 0088e2c2-ecd8-42ab-893a-465c1132ceb1
+		summarizeBy: none
+		sourceColumn: DayofWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayofWeekShort
+		dataType: string
+		isHidden
+		lineageTag: 5798b4d5-5805-4c8a-ad85-918ddc366a53
+		summarizeBy: none
+		sourceColumn: DayofWeekShort
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayofWeekNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ee7298c5-e696-4527-9c20-643b84df5a27
+		summarizeBy: sum
+		sourceColumn: DayofWeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Indicates whether the date is a working day.
+	column 'Working Day'
+		dataType: int64
+		formatString: 0
+		lineageTag: 02154710-344a-4c9e-bf7e-e842219d8bcf
+		summarizeBy: sum
+		sourceColumn: WorkingDay
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkingDayNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f1d55d6c-da24-4b14-824f-9a6898ef545d
+		summarizeBy: sum
+		sourceColumn: WorkingDayNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		queryGroup: CSV
+		source =
+				let
+				    Source = Source,
+				    CSVData = Source{2}[CSVData],
+				    #"Changed Type" = Table.TransformColumnTypes(CSVData,{{"Date", type date}, {"DateKey", Int64.Type}, {"Year", Int64.Type}, {"YearQuarter", type text}, {"YearQuarterNumber", Int64.Type}, {"Quarter", type text}, {"YearMonth", type date}, {"YearMonthShort", type date}, {"YearMonthNumber", Int64.Type}, {"Month", type text}, {"MonthShort", type text}, {"MonthNumber", Int64.Type}, {"DayofWeek", type text}, {"DayofWeekShort", type text}, {"DayofWeekNumber", Int64.Type}, {"WorkingDay", Int64.Type}, {"WorkingDayNumber", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
