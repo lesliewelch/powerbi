@@ -1,0 +1,34 @@
+table Source
+	lineageTag: e3c66d9d-0a34-4a51-a941-4d556faa4409
+
+	column Name
+		dataType: string
+		lineageTag: 0b991bfa-fc67-4aed-9682-173343e75d35
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column CSVData
+		dataType: string
+		lineageTag: 537638aa-a3f2-45ba-9fc4-028e3334fefa
+		summarizeBy: none
+		sourceColumn: CSVData
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Source = m
+		mode: import
+		queryGroup: CSV
+		source =
+				let
+				    Source = Folder.Files("C:\Users\lesli\OneDrive\Documents\self service demo\csv-100k"),
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Content", "Name"}),
+				    #"Added Custom" = Table.AddColumn(#"Removed Other Columns", "CSVData", each Table.PromoteHeaders(Csv.Document([Content])))
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
