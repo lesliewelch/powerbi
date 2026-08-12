@@ -25,6 +25,7 @@ table orders_staging
 		lineageTag: 42387240-ecc8-4aca-a3d8-16350fbed94f
 
 	measure 'Not Delivered or Late %' = IF ( [Total Orders] = 0, BLANK ( ), ( [Total Orders] - [On Time Orders] ) / [Total Orders] )
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 7a1c2db2-88ae-42ff-86f2-6395b2fc8280
 
 	measure 'Late Order %' = IF ( [Total Orders] = 0, BLANK ( ), DIVIDE ( [Total Orders] - [On Time Orders], [Total Orders] ) )
@@ -216,6 +217,8 @@ table orders_staging
 		dataType: int64
 		lineageTag: c37cd582-f681-492f-a7b7-25dce28b31d1
 		summarizeBy: sum
+
+		changedProperty = SortByColumn
 
 	column 'Order Month' = FORMAT ( orders_staging[order_purchase_timestamp], "mmm" )
 		dataType: string

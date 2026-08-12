@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "7315449a0b7e896a863a",
   "position": {
-    "x": 24.69991122129349,
-    "y": 271.69902343422837,
-    "z": 7000,
-    "height": 349.91540896832441,
-    "width": 926.24667079850587,
-    "tabOrder": 7000
+    "x": 26.523407521105145,
+    "y": 228.39600920951651,
+    "z": 5000,
+    "height": 366.90713737528785,
+    "width": 925.37221795855726,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "lineChart",
@@ -60,7 +60,7 @@
                   "Property": "Avg Delivery Days"
                 }
               },
-              "queryRef": "orders.Avg Delivery Days",
+              "queryRef": "orders_staging.Avg Delivery Days",
               "nativeQueryRef": "Avg Delivery Days"
             }
           ]
@@ -84,6 +84,34 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "concatenateLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "87abdeb6500ca4c21ac1",
   "position": {
-    "x": 975.6464932410928,
-    "y": 271.69902343422837,
-    "z": 8000,
-    "height": 350,
-    "width": 926.24667079850587,
-    "tabOrder": 8000
+    "x": 975.47198772064473,
+    "y": 228.39600920951651,
+    "z": 2000,
+    "height": 371.327705295472,
+    "width": 926.84574059861859,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -69,6 +69,26 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }
