@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Report — Build Sheet</title>
+<style>
+  :root{
+    --ink:#2b2b2b; --mute:#8a8a8a; --faint:#b0b0b0;
+    --line:#d9d9d9; --canvas:#ffffff; --bg:#ececec; --panel:#f6f6f6;
+    --ph:#e2e2e2; --ph2:#cfcfcf;
+    --flag:#b45309; --meas:#1f6f8b; --col:#333;
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;padding:28px 16px 64px}
+  .wrap{max-width:1040px;margin:0 auto}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+  h1{font-size:22px;font-weight:650;margin:4px 0 2px}
+  .sub{color:var(--mute);font-size:13px;margin-bottom:8px}
+  .key{font-family:var(--mono);font-size:11px;color:var(--mute);margin-bottom:24px}
+  .key b{color:var(--meas);font-weight:600}
+  .key i{color:var(--col);font-style:normal;font-weight:600}
+  .key .fl{color:#fff;background:var(--flag);border-radius:50%;padding:0 5px;font-size:9px}
+
+  .page{margin:34px 0}
+  .phead{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
+  .pnum{font-family:var(--mono);font-size:12px;color:var(--flag);border:1px solid var(--flag);border-radius:3px;padding:1px 6px}
+  .pname{font-size:17px;font-weight:650}
+  .purpose{font-size:13px;color:var(--ink);margin:2px 0 14px}
+  .purpose b{font-weight:600}
+
+  .canvas{background:var(--canvas);border:1px solid var(--line);border-radius:5px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:12px;display:flex;flex-direction:column;gap:10px}
+  .bar{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+  .title-blk{font-size:12px;font-weight:650;color:var(--ink)}
+  .title-blk span{display:block;font-family:var(--mono);font-size:9px;font-weight:400;color:var(--faint);letter-spacing:.08em}
+  .slicers{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .slicer{font-family:var(--mono);font-size:9px;color:var(--mute);border:1px solid var(--line);border-radius:3px;padding:4px 8px;background:var(--panel);white-space:nowrap;display:flex;flex-direction:column;gap:2px}
+  .slicer .sl{color:var(--ink);font-weight:600}
+  .slicer .sf{color:var(--col)}
+  .slicer .fl{color:#fff;background:var(--flag);border-radius:50%;padding:0 4px;font-size:8px;align-self:flex-start}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .kpi{border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:8px 10px;display:flex;flex-direction:column;gap:3px;position:relative}
+  .kpi .num{font-family:var(--mono);font-size:17px;color:var(--ph2)}
+  .kpi .lbl{font-size:10px;color:var(--mute);line-height:1.25}
+  .kpi .field{font-family:var(--mono);font-size:9.5px;color:var(--meas);font-weight:600;margin-top:2px}
+
+  .row{display:grid;gap:10px}
+  .r-6-6{grid-template-columns:1fr 1fr}
+  .r-7-5{grid-template-columns:1.3fr 1fr}
+  .r-5-7{grid-template-columns:1fr 1.3fr}
+
+  .viz{border:1px solid var(--line);border-radius:4px;background:var(--canvas);padding:8px 9px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .viz .vt{font-size:10.5px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:2px;padding-right:20px}
+  .viz .vtype{font-family:var(--mono);font-size:8.5px;color:var(--faint);letter-spacing:.06em;margin-bottom:6px}
+  .viz .plot{height:52px;margin-bottom:2px}
+  .viz svg{width:100%;height:100%;display:block}
+  .g-stroke{stroke:var(--ph2);fill:none;stroke-width:2}
+  .g-fill{fill:var(--ph)} .g-fill2{fill:var(--ph2)} .g-dot{fill:var(--ph2)} .g-line{stroke:var(--line);stroke-width:1}
+
+  .fields{margin-top:6px;border-top:1px dashed var(--line);padding-top:5px;font-family:var(--mono);font-size:9.5px;line-height:1.6;display:grid;grid-template-columns:auto 1fr;gap:1px 8px;align-items:baseline}
+  .fields .well{color:var(--faint);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .fields .val{color:var(--col)}
+  .fields .m{color:var(--meas);font-weight:600}
+  .fields .note{grid-column:1 / -1;color:var(--mute);font-style:italic;font-size:9px;margin-top:2px}
+
+  .flag{position:absolute;top:7px;right:7px;font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;background:var(--flag);width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .kpi .flag{top:6px;right:6px}
+
+  .legend{margin-top:12px;border-left:2px solid var(--flag);padding:2px 0 2px 12px}
+  .legend h4{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);margin:0 0 6px}
+  .legend ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+  .legend li{font-size:11.5px;color:var(--ink);display:grid;grid-template-columns:16px 1fr;gap:8px;align-items:start}
+  .legend .mk{font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;background:var(--flag);width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px}
+
+  .note{font-size:12px;color:var(--mute);border-top:1px solid var(--line);margin-top:40px;padding-top:14px}
+  @media (max-width:640px){
+    .kpis{grid-template-columns:1fr 1fr}
+    .r-6-6,.r-7-5,.r-5-7{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Demo model · operations report</div>
+  <h1>Build sheet</h1>
+  <div class="sub">Layout + exact field bindings for each tile. Build top-to-bottom.</div>
+  <div class="key">key: <b>[Measure]</b> · <i>table[column]</i> · <span class="fl">n</span> planted-issue marker</div>
+
+  <!-- PAGE 1 -->
+  <section class="page">
+    <div class="phead"><span class="pnum">PAGE 1</span><span class="pname">Delivery Performance</span></div>
+    <div class="purpose"><b>Purpose:</b> Are we meeting delivery expectations, and where are we missing them?</div>
+
+    <div class="canvas">
+      <div class="bar">
+        <div class="title-blk">Delivery Performance<span>ORDER GRAIN</span></div>
+        <div class="slicers">
+          <span class="slicer"><span class="sl">Order date</span><span class="sf">orders[order_purchase_timestamp]</span></span>
+          <span class="slicer"><span class="sl">Customer state</span><span class="sf">customers[customer_state]</span></span>
+          <span class="slicer"><span class="fl">1</span><span class="sl">Order status</span><span class="sf">orders[order_status]</span></span>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><span class="flag">2</span><span class="num">##.#</span><span class="lbl">Avg delivery days</span><span class="field">[Avg Delivery Days]</span></div>
+        <div class="kpi"><span class="flag">3</span><span class="num">##%</span><span class="lbl">On-time rate</span><span class="field">[On Time Rate]</span></div>
+        <div class="kpi"><span class="num">##,###</span><span class="lbl">Orders delivered</span><span class="field">[Orders Delivered]</span></div>
+        <div class="kpi"><span class="flag">2</span><span class="num">#.#%</span><span class="lbl">Not delivered / late</span><span class="field">[Not Delivered or Late %]</span></div>
+      </div>
+
+      <div class="row r-7-5">
+        <div class="viz"><span class="flag">2</span>
+          <div class="vt">Avg delivery days by month</div>
+          <div class="vtype">LINE CHART</div>
+          <div class="plot"><svg viewBox="0 0 300 60" preserveAspectRatio="none"><line class="g-line" x1="0" y1="54" x2="300" y2="54"/><polyline class="g-stroke" points="0,38 40,34 80,40 120,26 160,30 200,18 240,24 280,12"/></svg></div>
+          <div class="fields">
+            <span class="well">Axis</span><span class="val"><i>orders[Order Year]</i>, <i>orders[Order Month]</i></span>
+            <span class="well">Values</span><span class="val m">[Avg Delivery Days]</span>
+            <span class="note">Order Month sorts alphabetically — leave it; that's the point.</span>
+          </div>
+        </div>
+        <div class="viz"><span class="flag">3</span>
+          <div class="vt">On-time rate by region</div>
+          <div class="vtype">CLUSTERED BAR</div>
+          <div class="plot"><svg viewBox="0 0 200 60"><rect class="g-fill" x="12" y="18" width="26" height="42"/><rect class="g-fill" x="52" y="28" width="26" height="32"/><rect class="g-fill" x="92" y="12" width="26" height="48"/><rect class="g-fill" x="132" y="32" width="26" height="28"/><rect class="g-fill" x="172" y="22" width="26" height="38"/></svg></div>
+          <div class="fields">
+            <span class="well">Axis</span><span class="val"><i>customers[customer_state]</i></span>
+            <span class="well">Values</span><span class="val m">[On Time Rate]</span>
+            <span class="note">SLA target line = pending SharePoint file.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row r-6-6">
+        <div class="viz"><span class="flag">4</span>
+          <div class="vt">Avg delivery days by state</div>
+          <div class="vtype">MAP (or bar if geocoding is fiddly)</div>
+          <div class="plot"><svg viewBox="0 0 200 60"><path class="g-fill" d="M40 14 L80 8 L120 16 L150 12 L162 30 L138 48 L92 52 L54 46 L34 30 Z"/><circle class="g-dot" cx="70" cy="28" r="4"/><circle class="g-dot" cx="110" cy="24" r="6"/><circle class="g-dot" cx="128" cy="38" r="5"/></svg></div>
+          <div class="fields">
+            <span class="well">Location</span><span class="val"><i>customers[customer_state]</i></span>
+            <span class="well">Color</span><span class="val m">[Avg Delivery Days]</span>
+          </div>
+        </div>
+        <div class="viz">
+          <div class="vt">Delivery days — worst sellers</div>
+          <div class="vtype">BAR · TOP N</div>
+          <div class="plot"><svg viewBox="0 0 200 60"><rect class="g-fill" x="8" y="4" width="150" height="9"/><rect class="g-fill" x="8" y="19" width="128" height="9"/><rect class="g-fill" x="8" y="34" width="104" height="9"/><rect class="g-fill" x="8" y="49" width="86" height="9"/></svg></div>
+          <div class="fields">
+            <span class="well">Axis</span><span class="val"><i>sellers[seller_id]</i></span>
+            <span class="well">Values</span><span class="val m">[Avg Delivery Days]</span>
+            <span class="note">Filter: Top 10 by [Avg Delivery Days].</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h4>Where the mess shows</h4>
+      <ul>
+        <li><span class="mk">1</span><span>Order-status slicer shows unreadable integer codes — status_code lookup is unwired.</span></li>
+        <li><span class="mk">2</span><span>Delivery-days / late measures poisoned by the 9999 sentinel — plausible but wrong.</span></li>
+        <li><span class="mk">3</span><span>On-time base includes canceled orders; SLA overlay pending.</span></li>
+        <li><span class="mk">4</span><span>State comes off customers directly; geolocation sits unused (bloat lesson).</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section class="page">
+    <div class="phead"><span class="pnum">PAGE 2</span><span class="pname">Fulfillment &amp; Satisfaction</span></div>
+    <div class="purpose"><b>Purpose:</b> Where does fulfillment break down, and does it cost us in reviews and freight?</div>
+
+    <div class="canvas">
+      <div class="bar">
+        <div class="title-blk">Fulfillment &amp; Satisfaction<span>MIXED GRAIN</span></div>
+        <div class="slicers">
+          <span class="slicer"><span class="fl">5</span><span class="sl">Product category</span><span class="sf">products[product_category_name]</span></span>
+          <span class="slicer"><span class="sl">Seller</span><span class="sf">sellers[seller_id]</span></span>
+          <span class="slicer"><span class="sl">Customer state</span><span class="sf">customers[customer_state]</span></span>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><span class="num">#.#</span><span class="lbl">Avg review score</span><span class="field">[Avg Review Score]</span></div>
+        <div class="kpi"><span class="flag">2</span><span class="num">##%</span><span class="lbl">Late order %</span><span class="field">[Late Order %]</span></div>
+        <div class="kpi"><span class="flag">6</span><span class="num">R$ ##.#</span><span class="lbl">Avg freight value</span><span class="field">[Avg Freight per Order]</span></div>
+        <div class="kpi"><span class="num">#.#</span><span class="lbl">Avg days to ship</span><span class="field">[Avg Days To Ship]</span></div>
+      </div>
+
+      <div class="row r-6-6">
+        <div class="viz"><span class="flag">7</span>
+          <div class="vt">Time between pipeline stages</div>
+          <div class="vtype">CLUSTERED COLUMN (3 measures)</div>
+          <div class="plot"><svg viewBox="0 0 200 60"><rect class="g-fill" x="20" y="6" width="160" height="10"/><rect class="g-fill" x="34" y="22" width="132" height="10"/><rect class="g-fill" x="50" y="38" width="100" height="10"/></svg></div>
+          <div class="fields">
+            <span class="well">Values</span><span class="val m">[Avg Purchase to Approved], [Avg Approved to Carrier], [Avg Carrier to Delivered]</span>
+            <span class="note">No axis field — the three measures are the bars.</span>
+          </div>
+        </div>
+        <div class="viz"><span class="flag">2</span>
+          <div class="vt">Review score vs delivery lateness</div>
+          <div class="vtype">CLUSTERED COLUMN</div>
+          <div class="plot"><svg viewBox="0 0 200 60"><line class="g-line" x1="0" y1="54" x2="200" y2="54"/><rect class="g-fill2" x="16" y="14" width="26" height="40"/><rect class="g-fill2" x="56" y="22" width="26" height="32"/><rect class="g-fill2" x="96" y="32" width="26" height="22"/><rect class="g-fill2" x="136" y="40" width="26" height="14"/></svg></div>
+          <div class="fields">
+            <span class="well">Axis</span><span class="val"><i>orders[Lateness Bucket]</i></span>
+            <span class="well">Values</span><span class="val m">[Avg Review Score]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row r-5-7">
+        <div class="viz"><span class="flag">5</span>
+          <div class="vt">Volume &amp; freight by product category</div>
+          <div class="vtype">BAR</div>
+          <div class="plot"><svg viewBox="0 0 200 60"><rect class="g-fill" x="8" y="4" width="140" height="8"/><rect class="g-fill" x="8" y="18" width="118" height="8"/><rect class="g-fill" x="8" y="32" width="150" height="8"/><rect class="g-fill" x="8" y="46" width="96" height="8"/></svg></div>
+          <div class="fields">
+            <span class="well">Axis</span><span class="val"><i>products[product_category_name]</i></span>
+            <span class="well">Values</span><span class="val m">[Total Orders]</span>, <span class="val m">[Total Freight]</span>
+            <span class="note">Category shows Portuguese — English column is related but unused.</span>
+          </div>
+        </div>
+        <div class="viz"><span class="flag">8</span>
+          <div class="vt">Seller detail</div>
+          <div class="vtype">MATRIX</div>
+          <div class="plot"><svg viewBox="0 0 220 60"><line class="g-line" x1="0" y1="15" x2="220" y2="15"/><line class="g-line" x1="0" y1="30" x2="220" y2="30"/><line class="g-line" x1="0" y1="45" x2="220" y2="45"/><line class="g-line" x1="90" y1="0" x2="90" y2="60"/><line class="g-line" x1="135" y1="0" x2="135" y2="60"/><line class="g-line" x1="180" y1="0" x2="180" y2="60"/><rect class="g-fill" x="6" y="4" width="70" height="6"/><rect class="g-fill" x="6" y="19" width="60" height="6"/><rect class="g-fill" x="6" y="34" width="66" height="6"/></svg></div>
+          <div class="fields">
+            <span class="well">Rows</span><span class="val"><i>sellers[seller_id]</i></span>
+            <span class="well">Values</span><span class="val m">[Total Orders]</span>, <span class="val m">[Avg Delivery Days]</span>, <span class="val m">[Total Freight]</span>, <span class="val m">[Avg Review Score]</span>
+            <span class="note">Order-grain + item-grain measures in one visual — the grain tension, visible.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h4>Where the mess shows</h4>
+      <ul>
+        <li><span class="mk">5</span><span>Category slicer &amp; bar show Portuguese names; the related English column is never used.</span></li>
+        <li><span class="mk">2</span><span>Lateness buckets carry the sentinel — "20+ days" is inflated by canceled orders.</span></li>
+        <li><span class="mk">6</span><span>Freight averaged at item grain but labeled per order.</span></li>
+        <li><span class="mk">7</span><span>Stage measures are a copy-paste family; also carry the sentinel.</span></li>
+        <li><span class="mk">8</span><span>Matrix mixes order-grain and item-grain measures.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="note">Build top-to-bottom per page. Fields in blue are measures (drag from the field list), black are columns. Grey plots are placeholders — pick the visual type named under each title. Markers are the demo layer: each tile ties to a planted issue a Copilot will or won't catch.</div>
+</div>
+</body>
+</html>
