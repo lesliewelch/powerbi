@@ -1,0 +1,86 @@
+table order_reviews
+	lineageTag: 6c8cbf8a-425b-459f-999b-f22760023937
+
+	measure 'Avg Review Score' = AVERAGE ( order_reviews[review_score] )
+		lineageTag: 17b24f4c-5bb8-4a75-9f9f-348eb38710ee
+
+	column review_id
+		dataType: string
+		lineageTag: 93665f3f-9d2f-4ed7-8450-0ac08e643cea
+		summarizeBy: none
+		sourceColumn: review_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 24f46626-fd3d-4023-9924-d39c1730441c
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_score
+		dataType: int64
+		formatString: 0
+		lineageTag: b126c629-00d3-4c39-9570-93bf3ba34cdd
+		summarizeBy: sum
+		sourceColumn: review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_comment_title
+		dataType: string
+		lineageTag: fd29906d-947b-473b-99a2-3310c4f8ad94
+		summarizeBy: none
+		sourceColumn: review_comment_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_comment_message
+		dataType: string
+		lineageTag: 2ac2b11b-6b2e-4e24-8d38-6456c4f3a941
+		summarizeBy: none
+		sourceColumn: review_comment_message
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_creation_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 401a6880-ed34-4764-a6fe-091601ff560a
+		summarizeBy: none
+		sourceColumn: review_creation_date
+
+		variation Variation
+			isDefault
+			relationship: a77a6938-45b2-43e9-bb89-df01fbe85caf
+			defaultHierarchy: LocalDateTable_1c664aea-fc4f-4d16-bac8-ed4ece683c07.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_answer_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2fdedd3c-cbac-482c-8458-b88e1afa9f78
+		summarizeBy: none
+		sourceColumn: review_answer_timestamp
+
+		variation Variation
+			isDefault
+			relationship: d46b8c41-cb75-411c-ad3e-09f7a5c416a9
+			defaultHierarchy: LocalDateTable_ebfc843b-9964-4a6f-bbdc-44517846bab5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition order_reviews = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_order_reviews = Source{[Schema="dbo",Item="order_reviews"]}[Data]
+				in
+				    dbo_order_reviews
+
+	annotation PBI_ResultType = Table
+

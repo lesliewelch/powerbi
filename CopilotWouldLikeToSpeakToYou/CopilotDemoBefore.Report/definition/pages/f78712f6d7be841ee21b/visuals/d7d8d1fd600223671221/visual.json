@@ -1,0 +1,102 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "d7d8d1fd600223671221",
+  "position": {
+    "x": 976.86481348096288,
+    "y": 123.08792860851932,
+    "z": 5000,
+    "height": 125.55788204157524,
+    "width": 450,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "order_items"
+                    }
+                  },
+                  "Property": "Avg Freight per Order"
+                }
+              },
+              "queryRef": "order_items.Avg Freight per Order",
+              "nativeQueryRef": "Avg Freight per Order"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orders_staging"
+                    }
+                  },
+                  "Property": "Avg Sourcing Options per Order"
+                }
+              },
+              "queryRef": "orders.Avg Sourcing Options per Order",
+              "nativeQueryRef": "Avg Sourcing Options per Order"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "order_items"
+                  }
+                },
+                "Property": "Avg Freight per Order"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "87a4c50786c016a327b9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "order_items"
+              }
+            },
+            "Property": "Avg Freight per Order"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b166f3b3d9c44e007956",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orders_staging"
+              }
+            },
+            "Property": "Avg Sourcing Options per Order"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,171 @@
+table orders
+	lineageTag: 7d076f5f-9163-47b2-87ae-583a1444ed1b
+
+	column order_id
+		dataType: string
+		lineageTag: 08264f8f-760e-43bc-a278-75a789ae8c3b
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: d500856e-e351-4cb4-9e93-b274e714ca30
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: int64
+		formatString: 0
+		lineageTag: 284c3d0a-59c1-452f-80c8-42716e7a5f10
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_purchase_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: afee7468-6cd0-4b21-8948-c7cd56f9d2ca
+		summarizeBy: none
+		sourceColumn: order_purchase_timestamp
+
+		variation Variation
+			isDefault
+			relationship: b5fa7532-1334-41e8-abb9-e7089e1ecbf4
+			defaultHierarchy: LocalDateTable_0911fbd6-181b-4aa9-a4a8-7b8cdf18d11c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_approved_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a8a4a39a-249a-4b24-a16f-00a28954e043
+		summarizeBy: none
+		sourceColumn: order_approved_at
+
+		variation Variation
+			isDefault
+			relationship: bba8c133-1c3d-454d-a8ef-72bcbbc56cdb
+			defaultHierarchy: LocalDateTable_a421a1e1-2bb3-4b70-b01b-a5f7b5d5f121.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_carrier_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b08ba7d6-3e70-4315-9922-ca5986b248cf
+		summarizeBy: none
+		sourceColumn: order_delivered_carrier_date
+
+		variation Variation
+			isDefault
+			relationship: 834b4ce8-7907-402b-8ec9-3a4a2cf2ad8f
+			defaultHierarchy: LocalDateTable_729608d6-dc7e-46bb-9629-0f2f9bd8ddd0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_customer_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4d8e0f4e-a368-4fb3-b1bf-4fe1b9835eba
+		summarizeBy: none
+		sourceColumn: order_delivered_customer_date
+
+		variation Variation
+			isDefault
+			relationship: abe1414c-6f6c-4baf-b474-443722c4dc79
+			defaultHierarchy: LocalDateTable_f6d3c641-4a12-48c4-ad8b-2dfaf705932a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_estimated_delivery_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4e79eb9f-d841-44f5-81b0-20106c533375
+		summarizeBy: none
+		sourceColumn: order_estimated_delivery_date
+
+		variation Variation
+			isDefault
+			relationship: 67ba1793-ddfc-4ab8-89f3-aba74e3414dc
+			defaultHierarchy: LocalDateTable_4b27f955-cae3-44a7-ab26-933eef0d0545.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: 8ecd37ce-6497-460b-91ab-f78417fb14ca
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: 5b2ca51a-297d-468e-af8a-8df90c3006f9
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_weight_kg
+		dataType: double
+		lineageTag: cc2b2098-499f-413c-97ac-4c567bd09548
+		summarizeBy: sum
+		sourceColumn: order_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column created_by
+		dataType: string
+		lineageTag: a5524c88-0992-4d5e-bc3d-68d25845c237
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status_value
+		dataType: string
+		lineageTag: 99763840-2ddb-4424-927b-a17b27485849
+		summarizeBy: none
+		sourceColumn: order_status_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition orders = m
+		mode: import
+		source =
+				let
+				    Source = orders_staging,
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 1, 1, Int64.Type),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Index",{{"order_id", type text}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"customer_id", type text}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Changed Type1",{{"order_status", Int64.Type}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Changed Type2",{{"order_purchase_timestamp", type datetime}}),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Changed Type3",{{"order_approved_at", type datetime}}),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Changed Type4",{{"order_delivered_carrier_date", type datetime}}),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Changed Type5",{{"order_delivered_customer_date", type datetime}}),
+				    #"Changed Type7" = Table.TransformColumnTypes(#"Changed Type6",{{"order_estimated_delivery_date", type datetime}}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Changed Type7", "created_at", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"created_at.1", "created_at.2"}),
+				    #"Changed Type8" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"created_at.1", type text}, {"created_at.2", type text}}),
+				    #"Merged Columns" = Table.CombineColumns(#"Changed Type8",{"created_at.1", "created_at.2"},Combiner.CombineTextByDelimiter(" ", QuoteStyle.None),"created_at"),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Merged Columns",{"Index", "order_id", "customer_id", "order_status", "order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "created_at", "updated_at", "created_by"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Reordered Columns", each [order_purchase_timestamp] >= #datetime(2016, 1, 1, 0, 0, 0)),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"Index"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Columns", {"order_status"}, order_status_lookup, {"order_status"}, "order_status.1", JoinKind.LeftOuter),
+				    #"Expanded order_status.1" = Table.ExpandTableColumn(#"Merged Queries", "order_status.1", {"order_status", "Custom"}, {"order_status.1.order_status", "order_status.1.Custom"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded order_status.1",{"order_status.1.order_status"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns1",{{"order_status.1.Custom", "order_status_value"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,36 @@
+table order_status_lookup
+	lineageTag: 05a96b0b-91b0-463c-bd60-98eb046940b5
+
+	column order_status
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a00f2d2-2b96-499a-aff6-dc6a598c4cc1
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Custom
+		dataType: string
+		lineageTag: 94a7c206-523c-4b11-8263-7ae1039fb279
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	partition order_status_lookup = m
+		mode: import
+		source = ```
+				let
+				    Source = orders_staging,    
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"order_status"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Conditional Column" = Table.AddColumn(#"Removed Duplicates", "Custom", each if [order_status] = 4 then "delivered" else if [order_status] = 8 then "unavailable" else if [order_status] = 7 then "shipped" else if [order_status] = 2 then "canceled" else if [order_status] = 5 then "invoiced" else if [order_status] = 6 then "processing" else if [order_status] = 1 then "approved" else if [order_status] = 3 then "created" else null, type text)
+				in
+				    #"Added Conditional Column"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
