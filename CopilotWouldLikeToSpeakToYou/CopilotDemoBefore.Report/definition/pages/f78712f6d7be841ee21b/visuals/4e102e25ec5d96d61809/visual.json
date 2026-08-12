@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "4e102e25ec5d96d61809",
   "position": {
-    "x": 975.6464932410928,
-    "y": 646.3143436238463,
-    "z": 10000,
-    "height": 349.91540896832441,
-    "width": 926.24667079850587,
-    "tabOrder": 10000
+    "x": 869.37835763622411,
+    "y": 615.932463545664,
+    "z": 4000,
+    "height": 443.53031465848045,
+    "width": 1032.9393706830392,
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -122,111 +122,69 @@
         }
       },
       "sortDefinition": {
-        "isDefaultSort": true
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "sellers"
+                  }
+                },
+                "Property": "seller_id"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "288.05295417338743D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "sellers.seller_id"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "order_reviews.Avg Review Score"
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "order_reviews.Avg Review Score"
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "36a0160ceaa169c2189c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "sellers"
-              }
-            },
-            "Property": "seller_id"
-          }
-        },
-        "type": "TopN"
-      },
-      {
-        "name": "57beaad321e18e4b80e1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "orders_staging"
-              }
-            },
-            "Property": "Total Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f418281cee570811c329",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "orders_staging"
-              }
-            },
-            "Property": "Avg Delivery Days"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1ba56a02d9b4de1dd1da",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "order_items"
-              }
-            },
-            "Property": "Total Freight"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "4c5ea4023858374a9d49",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "order_reviews"
-              }
-            },
-            "Property": "Avg Review Score"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c5abf6ed7b84707d0802",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "sellers"
-              }
-            },
-            "Property": "Delivery Rank"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "bc8f2e2021a4039bd0b6",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "sellers"
-              }
-            },
-            "Property": "Delivery Percentile"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

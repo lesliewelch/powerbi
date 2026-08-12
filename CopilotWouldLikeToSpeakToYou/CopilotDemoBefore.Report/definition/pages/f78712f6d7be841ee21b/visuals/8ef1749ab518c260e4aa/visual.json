@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "8ef1749ab518c260e4aa",
   "position": {
-    "x": 24.69991122129349,
-    "y": 646.3143436238463,
-    "z": 9000,
-    "height": 349.91540896832441,
-    "width": 926.24667079850587,
-    "tabOrder": 9000
+    "x": 25.049884881043749,
+    "y": 615.932463545664,
+    "z": 3000,
+    "height": 443.53031465848045,
+    "width": 844.32847275518043,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "barChart",
@@ -124,51 +124,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "d51c8e165c00b7092151",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "category_translation"
-              }
-            },
-            "Property": "product_category_name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "d79826087889e8d8457e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "orders_staging"
-              }
-            },
-            "Property": "Total Orders"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c1708da24901096cc7ca",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "order_items"
-              }
-            },
-            "Property": "Total Freight"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

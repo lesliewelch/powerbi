@@ -29,9 +29,8 @@ table sellers
 			    ),
 			    CALCULATE ( DISTINCTCOUNT ( sellers[seller_id] ), ALL ( sellers ) )
 			)
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 0b155fe9-e633-4533-abaf-76ff617d218c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Sourcing Options' =
 			

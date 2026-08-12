@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "5fa50f1e920e3dd889bb",
   "position": {
-    "x": 975.6464932410928,
-    "y": 271.69902343422837,
-    "z": 8000,
-    "height": 350,
-    "width": 926.24667079850587,
-    "tabOrder": 8000
+    "x": 975.47198772064473,
+    "y": 228.39600920951651,
+    "z": 6000,
+    "height": 366.90713737528785,
+    "width": 926.84574059861859,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "columnChart",
@@ -84,51 +84,152 @@
         "isDefaultSort": true
       }
     },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "invertAxis": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "roundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "concatenateLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "showGradientLegend": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "zoom": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [
       {
-        "name": "b127f10d606a08a747c7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "customers"
+        "name": "6903c3db0ac5307b8b75",
+        "type": "Exclude",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "customers",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "c"
+                              }
+                            },
+                            "Property": "customer_state"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'CA'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
               }
-            },
-            "Property": "customer_state"
-          }
+            }
+          ]
         },
-        "type": "Categorical"
-      },
-      {
-        "name": "a407a907b6b25c10c765",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "orders_staging"
-              }
-            },
-            "Property": "On Time Rate"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "8823dcc261d4d31a403b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "orders_staging"
-              }
-            },
-            "Property": "Cartesian"
-          }
-        },
-        "type": "Advanced"
+        "howCreated": "Exclude"
       }
     ]
   }

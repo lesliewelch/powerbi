@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "ba396371b66c5e1901a0",
   "position": {
-    "x": 24.69991122129349,
-    "y": 646.3143436238463,
-    "z": 9000,
-    "height": 349.91540896832441,
-    "width": 926.24667079850587,
-    "tabOrder": 9000
+    "x": 25.049884881043749,
+    "y": 595.30314658480438,
+    "z": 7000,
+    "height": 465.63315425940141,
+    "width": 925.37221795855726,
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "shapeMap",
@@ -142,7 +142,7 @@
                   "color": {
                     "expr": {
                       "Literal": {
-                        "Value": "'maxColor'"
+                        "Value": "'#595FFF'"
                       }
                     }
                   }
@@ -160,54 +160,81 @@
             }
           }
         }
+      ],
+      "zoom": [
+        {
+          "properties": {
+            "autoZoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "selectionZoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "defaultColors": [
+        {
+          "properties": {
+            "defaultShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "defaultColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "1209e1c128b05d48a0c3",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "customers"
-              }
-            },
-            "Property": "customer_state"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "238f2a404bae70a90538",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "orders_staging"
-              }
-            },
-            "Property": "Avg Delivery Days"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0f3818fe870a869d8c9c",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "geolocation"
-              }
-            },
-            "Property": "Geo Points In Scope"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

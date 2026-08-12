@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "6a51bde38dbd563a4dd7",
   "position": {
-    "x": 24.288220908222918,
-    "y": 123.08792860851932,
-    "z": 0,
+    "x": 0,
+    "y": 0,
+    "z": 1000,
     "height": 125.55788204157524,
-    "width": 450.77337978860618,
-    "tabOrder": 0
+    "width": 451.83319181005271,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -51,6 +51,68 @@
         "isDefaultSort": true
       }
     },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "horizontalAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'aboveValue'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": -0.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
-  }
+  },
+  "parentGroupName": "f6e5404cec2eaa04720e"
 }

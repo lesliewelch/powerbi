@@ -1,105 +1,71 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "7aa748f8430d6e414076",
+  "name": "842577ee7c72a0243aa1",
   "position": {
-    "x": 607.2061508567981,
+    "x": 0,
     "y": 0,
     "z": 0,
-    "height": 82.333037404311625,
-    "width": 279.93232717465952,
-    "tabOrder": 0
+    "height": 103.14658480429779,
+    "width": 1920.0000000000002,
+    "tabOrder": 10000
   },
   "visual": {
-    "visualType": "slicer",
-    "query": {
-      "queryState": {
-        "Values": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "customers"
-                    }
-                  },
-                  "Property": "customer_state"
-                }
-              },
-              "queryRef": "customers.customer_state",
-              "nativeQueryRef": "customer_state",
-              "active": true
-            }
-          ]
-        }
-      }
-    },
+    "visualType": "shape",
     "objects": {
-      "data": [
+      "shape": [
         {
           "properties": {
-            "mode": {
+            "tileShape": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dropdown'"
+                  "Value": "'rectangle'"
                 }
               }
             }
           }
         }
       ],
-      "header": [
+      "rotation": [
         {
           "properties": {
-            "show": {
+            "shapeAngle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "textSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "16D"
+                  "Value": "0L"
                 }
               }
             }
           }
         }
       ],
-      "pendingChangesIcon": [
+      "fill": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "items": [
-        {
-          "properties": {
-            "textSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "16D"
-                }
-              }
-            },
-            "background": {
+            "fillColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
+                      "ColorId": 2,
+                      "Percent": 0.6
                     }
                   }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -108,19 +74,6 @@
       ]
     },
     "visualContainerObjects": {
-      "stylePreset": [
-        {
-          "properties": {
-            "name": {
-              "expr": {
-                "Literal": {
-                  "Value": "'List'"
-                }
-              }
-            }
-          }
-        }
-      ],
       "title": [
         {
           "properties": {
@@ -166,9 +119,22 @@
             }
           }
         }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'List'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "30dd56c003c968708040"
+  "howCreated": "InsertVisualButton"
 }

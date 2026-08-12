@@ -2,13 +2,22 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "baseTheme": {
-      "name": "Fluent2-CY26SU05",
+      "name": "CY26SU05",
       "reportVersionAtImport": {
         "visual": "2.9.0",
         "report": "3.3.0",
         "page": "2.3.1"
       },
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Storm2735774846321881.json",
+      "reportVersionAtImport": {
+        "visual": "2.10.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
     }
   },
   "objects": {
@@ -31,7 +40,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "true"
+                "Value": "false"
               }
             }
           }
@@ -45,14 +54,25 @@
       "type": "SharedResources",
       "items": [
         {
-          "name": "Fluent2-CY26SU05",
-          "path": "BaseThemes/Fluent2-CY26SU05.json",
+          "name": "CY26SU05",
+          "path": "BaseThemes/CY26SU05.json",
           "type": "BaseTheme"
         },
         {
           "name": "usa.states.topo",
           "path": "Shapemaps/usa.states.topo.json",
           "type": "ShapeMap"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Storm2735774846321881.json",
+          "path": "Storm2735774846321881.json",
+          "type": "CustomTheme"
         }
       ]
     }
