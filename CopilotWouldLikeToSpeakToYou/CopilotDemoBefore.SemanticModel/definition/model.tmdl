@@ -1,0 +1,43 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["orders_staging","orders","order_items","order_payments","order_reviews","products","customers","sellers","category_translation","geolocation","sellers_zip_lookup","order_status_lookup"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table orders_staging
+ref table order_items
+ref table order_payments
+ref table order_reviews
+ref table products
+ref table customers
+ref table sellers
+ref table category_translation
+ref table geolocation
+ref table DateTableTemplate_ddeadd16-8501-4e80-be66-8c0f43d8feb8
+ref table LocalDateTable_971d8594-4808-494d-8bd8-77abfc5c466f
+ref table LocalDateTable_ad074633-b8b7-4bf6-86c1-654bf0bb2993
+ref table LocalDateTable_73d5f4a7-fcd8-4c1c-8a42-982d71b5c2f3
+ref table LocalDateTable_99193cc4-0330-429d-9f6f-5d45a53ce4ce
+ref table LocalDateTable_e660f962-e7f6-49b9-ae88-de886d0c94d1
+ref table LocalDateTable_0f4a8783-df80-4f42-829a-ff818cd7c049
+ref table LocalDateTable_1c664aea-fc4f-4d16-bac8-ed4ece683c07
+ref table LocalDateTable_ebfc843b-9964-4a6f-bbdc-44517846bab5
+ref table orders
+ref table LocalDateTable_0911fbd6-181b-4aa9-a4a8-7b8cdf18d11c
+ref table LocalDateTable_a421a1e1-2bb3-4b70-b01b-a5f7b5d5f121
+ref table LocalDateTable_729608d6-dc7e-46bb-9629-0f2f9bd8ddd0
+ref table LocalDateTable_f6d3c641-4a12-48c4-ad8b-2dfaf705932a
+ref table LocalDateTable_4b27f955-cae3-44a7-ab26-933eef0d0545
+ref table sellers_zip_lookup
+ref table order_status_lookup
+
+ref cultureInfo en-US
+

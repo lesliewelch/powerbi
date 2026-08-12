@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "f78712f6d7be841ee21b",
+  "displayName": "Fulfillment & Satisfaction",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920
+}

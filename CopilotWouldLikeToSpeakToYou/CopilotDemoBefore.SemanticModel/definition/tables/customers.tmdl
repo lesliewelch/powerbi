@@ -1,0 +1,104 @@
+table customers
+	lineageTag: 87ed1e4e-5cf1-4266-84ad-ac2a1b8e32fd
+
+	measure 'Avg Delivery per Customer' =
+			
+			AVERAGEX (
+			    VALUES ( customers[customer_unique_id] ),
+			    CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) )
+			)
+		lineageTag: f2d4c45e-02f3-40ee-87f7-70cd952a35f6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_id
+		dataType: string
+		lineageTag: 14421a30-1305-4b2a-b8e7-bdb738c33fd1
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: becc4845-cfc0-49c4-9b6a-5892b6a9bf96
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_zip_code_prefix
+		dataType: string
+		lineageTag: 07271ecc-826f-48d3-a2d6-36d4272ddae7
+		summarizeBy: none
+		sourceColumn: customer_zip_code_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 67d01d17-8d51-4bf5-bfaf-22eb050e04fe
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: 51c1ace1-fe99-462c-ab90-aaab80db7fd3
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: eff2e5f8-fd9c-4a42-bcc2-e038ef480ff5
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: d6700233-ad68-4abd-9625-bf3230064de6
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: e646e211-173c-45f7-82ef-54d190e98d10
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'City Clean'
+		dataType: string
+		lineageTag: 990e15da-8637-4197-b041-92adab68b9d8
+		summarizeBy: none
+		sourceColumn: City Clean
+
+		annotation SummarizationSetBy = Automatic
+
+	partition customers = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_customers = Source{[Schema="dbo",Item="customers"]}[Data],
+				    #"Duplicated Column" = Table.DuplicateColumn(dbo_customers, "customer_city", "customer_city - Copy"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Duplicated Column",{{"customer_city - Copy", Text.Trim, type text}}),
+				    #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"customer_city - Copy", Text.Clean, type text}}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Cleaned Text",{{"customer_city - Copy", Text.Lower, type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Lowercased Text",{{"customer_city - Copy", "City Clean"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each [customer_state] <> "AC" and [customer_state] <> "AP" and [customer_state] <> "AM" and [customer_state] <> "RR" and [customer_state] <> "RO" and [customer_state] <> "TO")
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,58 @@
+table order_payments
+	lineageTag: 180b024d-8f9f-487f-b6e2-5e5d628151ac
+
+	column order_id
+		dataType: string
+		lineageTag: 6ff67efc-d456-4ae3-8185-acd76185a1c1
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_sequential
+		dataType: int64
+		formatString: 0
+		lineageTag: 68f66d84-c2be-4cac-a5be-18c9085274b0
+		summarizeBy: sum
+		sourceColumn: payment_sequential
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_type
+		dataType: string
+		lineageTag: f418a53c-4ea2-4b1d-ad6e-75bf04b4dee5
+		summarizeBy: none
+		sourceColumn: payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_installments
+		dataType: int64
+		formatString: 0
+		lineageTag: c77cd451-4be5-4e82-9756-00718de14811
+		summarizeBy: sum
+		sourceColumn: payment_installments
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_value
+		dataType: double
+		lineageTag: ca7b3a5f-fef4-4f1d-b17e-d1d1d78708db
+		summarizeBy: sum
+		sourceColumn: payment_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition order_payments = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_order_payments = Source{[Schema="dbo",Item="order_payments"]}[Data]
+				in
+				    dbo_order_payments
+
+	annotation PBI_ResultType = Table
+

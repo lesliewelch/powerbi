@@ -1,0 +1,35 @@
+table sellers_zip_lookup
+	lineageTag: b3a9f98d-01b0-4451-8d1b-7bf7dfe91107
+
+	column seller_id
+		dataType: string
+		lineageTag: d22e3f77-4c52-4e06-a10b-7e4b1b1f8c5e
+		summarizeBy: none
+		sourceColumn: seller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_zip_code_prefix
+		dataType: string
+		lineageTag: 76c7e2cb-7b63-4357-8c8e-77b7fd8886e8
+		summarizeBy: none
+		sourceColumn: seller_zip_code_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sellers_zip_lookup = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_sellers = Source{[Schema="dbo",Item="sellers"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(dbo_sellers,{"created_at", "updated_at", "created_by"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Columns",{"seller_id", "seller_zip_code_prefix"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

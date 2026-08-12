@@ -1,0 +1,102 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "881faeb099b0b0661e1d",
+  "position": {
+    "x": 1452.7664198730297,
+    "y": 123.08792860851932,
+    "z": 6000,
+    "height": 125.55788204157524,
+    "width": 450.77337978860618,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "orders_staging"
+                    }
+                  },
+                  "Property": "Avg Days To Ship"
+                }
+              },
+              "queryRef": "orders.Avg Days To Ship",
+              "nativeQueryRef": "Avg Days To Ship"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sellers"
+                    }
+                  },
+                  "Property": "Sourcing Options"
+                }
+              },
+              "queryRef": "sellers.Sourcing Options",
+              "nativeQueryRef": "Sourcing Options"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "orders_staging"
+                  }
+                },
+                "Property": "Avg Days To Ship"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c636110738757c16c28c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "orders_staging"
+              }
+            },
+            "Property": "Avg Days To Ship"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bac0270e6606018041bb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "sellers"
+              }
+            },
+            "Property": "Sourcing Options"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

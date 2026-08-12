@@ -1,0 +1,291 @@
+table orders_staging
+	lineageTag: f9aa8a40-a90c-4cd5-af53-1a2abff445b7
+
+	measure 'Total Orders' = COUNTROWS ( orders_staging )
+		lineageTag: f7a8b454-4912-4d08-ae3e-7fd73ec8e679
+
+	measure 'Orders Delivered' = CALCULATE ( COUNTROWS ( orders_staging ), orders_staging[order_status] = 4 )
+		lineageTag: adf1fb2b-9b4a-4a9b-a24d-aa57c0d58ee5
+
+	measure 'Avg Delivery Days' = AVERAGE ( orders_staging[Delivery Days] )
+		lineageTag: fcd928ea-61d1-4555-a179-1f407872a6b6
+
+	measure 'On Time Orders' =
+			CALCULATE (
+				COUNTROWS ( orders_staging ),
+				FILTER (
+					orders_staging,
+					NOT ISBLANK ( orders_staging[order_delivered_customer_date] )
+						&& orders_staging[order_delivered_customer_date] <= orders_staging[order_estimated_delivery_date]
+				)
+			)
+		lineageTag: 690eb36a-e129-4f03-856e-8280c14b0efb
+
+	measure 'On Time Rate' = IF ( [Total Orders] = 0, BLANK ( ), [On Time Orders] / [Total Orders] )
+		lineageTag: 42387240-ecc8-4aca-a3d8-16350fbed94f
+
+	measure 'Not Delivered or Late %' = IF ( [Total Orders] = 0, BLANK ( ), ( [Total Orders] - [On Time Orders] ) / [Total Orders] )
+		lineageTag: 7a1c2db2-88ae-42ff-86f2-6395b2fc8280
+
+	measure 'Late Order %' = IF ( [Total Orders] = 0, BLANK ( ), DIVIDE ( [Total Orders] - [On Time Orders], [Total Orders] ) )
+		lineageTag: 9e2771c3-1548-4501-a8b6-1b1003b67a20
+
+	measure 'Avg Days To Ship' = AVERAGE ( orders_staging[Ship Days] )
+		lineageTag: 22737d4a-4fcd-4feb-94a1-af7b0cc6f0aa
+
+	measure 'Avg Purchase to Approved' = AVERAGE ( orders_staging[Approve Days] )
+		lineageTag: e53a6667-230c-4d65-9d51-714f57fdce85
+
+	measure 'Avg Approved to Carrier' = AVERAGE ( orders_staging[Carrier Days] )
+		lineageTag: 200b91b8-9530-42a4-b324-3a8d8b53f294
+
+	measure 'Avg Carrier to Delivered' = AVERAGE ( orders_staging[Delivery Days] ) - AVERAGE ( orders_staging[Carrier Days] )
+		lineageTag: 25770e8f-05fa-46e2-9a4a-123af0d359de
+
+	measure Cartesian =
+			
+			COUNTROWS (
+			    FILTER (
+			        CROSSJOIN ( VALUES ( orders_staging[order_id] ), VALUES ( sellers[seller_id] ) ),
+			        1 = 1
+			    )
+			)
+		formatString: 0
+		lineageTag: f3c44c33-4097-494d-9806-0026d061054a
+
+	measure 'Median Delivery Days' = MEDIANX ( orders_staging, orders_staging[Delivery Days] )
+		lineageTag: 6f07b7d5-2eac-486d-b0c2-bfba8ba70a11
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Orders Beatable by Other Sellers' =
+			
+			COUNTROWS (
+			    FILTER (
+			        CROSSJOIN (
+			            SUMMARIZE (
+			                orders_staging,
+			                orders_staging[order_id],
+			                "OrderDelivery", CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) )
+			            ),
+			            VALUES ( sellers[seller_id] )
+			        ),
+			        [OrderDelivery] > CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) )
+			    )
+			)
+		formatString: 0
+		lineageTag: 82e09925-bcda-45d7-b3f7-bb0263c8957e
+
+	measure 'High Freight Orders' = ```
+			
+			CALCULATE ( COUNTROWS ( order_items ), FILTER ( order_items, order_items[freight_value] > 50 ) )
+			
+			```
+		formatString: 0
+		lineageTag: e7fa9ded-412d-461a-aa38-6ca28a754b3a
+
+	measure 'Seller Order Count' = COUNTROWS ( orders_staging )
+		formatString: 0
+		lineageTag: 34359673-dec0-4e7d-a304-2d30cd68cdde
+
+	measure 'Avg Sourcing Options per Order' = DIVIDE ( [Sourcing Options], DISTINCTCOUNT ( orders_staging[order_id] ) )
+		lineageTag: dcb6940d-5660-4b77-9c29-36b020410daa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_id
+		dataType: string
+		lineageTag: 21300e67-3db0-49cb-b72c-65d31739f51e
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: aa0384f1-6bf9-4fb9-a103-4cff3288211a
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_purchase_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c9e8e50c-99e4-4cd9-aa63-66226336fdbc
+		summarizeBy: none
+		sourceColumn: order_purchase_timestamp
+
+		variation Variation
+			isDefault
+			relationship: fddab9c9-d803-4d63-8fbd-a66f8fc93e15
+			defaultHierarchy: LocalDateTable_971d8594-4808-494d-8bd8-77abfc5c466f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_approved_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 84784625-fbc5-4b34-9afc-c2a2a8be6a33
+		summarizeBy: none
+		sourceColumn: order_approved_at
+
+		variation Variation
+			isDefault
+			relationship: 7a20614f-5fc3-46d5-bec2-7c3a7f0e8377
+			defaultHierarchy: LocalDateTable_ad074633-b8b7-4bf6-86c1-654bf0bb2993.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_carrier_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2d3636e6-7c56-46f5-af92-3fcfa2542c4b
+		summarizeBy: none
+		sourceColumn: order_delivered_carrier_date
+
+		variation Variation
+			isDefault
+			relationship: ea20bc37-4a4d-49d9-b9ca-f25227064e4c
+			defaultHierarchy: LocalDateTable_73d5f4a7-fcd8-4c1c-8a42-982d71b5c2f3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_customer_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 347d10b3-e1f3-48c7-8d25-24adeca73e05
+		summarizeBy: none
+		sourceColumn: order_delivered_customer_date
+
+		variation Variation
+			isDefault
+			relationship: 4b6d3329-5024-4670-accb-b5f6c8e4da02
+			defaultHierarchy: LocalDateTable_99193cc4-0330-429d-9f6f-5d45a53ce4ce.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_estimated_delivery_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8c087505-cb53-4593-bfbd-fed992c0a71d
+		summarizeBy: none
+		sourceColumn: order_estimated_delivery_date
+
+		variation Variation
+			isDefault
+			relationship: bbebf96c-6184-4b98-8ba4-ec8fa425693f
+			defaultHierarchy: LocalDateTable_e660f962-e7f6-49b9-ae88-de886d0c94d1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: int64
+		formatString: 0
+		lineageTag: 7cf99418-2356-4f66-b757-35cbbf0420d3
+		summarizeBy: sum
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: 5d03076e-46c2-4309-9ae2-0b639a680877
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: c8063c2f-72c3-478c-8a65-ada18c4d598f
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: 0b12ba81-6873-45f1-8047-b429bb7d402a
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Year' = YEAR ( orders_staging[order_purchase_timestamp] )
+		dataType: int64
+		lineageTag: c37cd582-f681-492f-a7b7-25dce28b31d1
+		summarizeBy: sum
+
+	column 'Order Month' = FORMAT ( orders_staging[order_purchase_timestamp], "mmm" )
+		dataType: string
+		lineageTag: 497e001b-20c6-4b21-b8c4-e828b1a74325
+		summarizeBy: none
+
+	column 'Delivery Days' =
+			IF (
+				NOT ISBLANK ( orders_staging[order_delivered_customer_date] ),
+				DATEDIFF ( orders_staging[order_purchase_timestamp], orders_staging[order_delivered_customer_date], DAY )
+			)
+		dataType: int64
+		lineageTag: 57ebbf9e-9bab-4e9f-b95f-b54aab443709
+		summarizeBy: sum
+
+	column 'Ship Days' =
+			IF (
+				NOT ISBLANK ( orders_staging[order_delivered_carrier_date] ),
+				DATEDIFF ( orders_staging[order_purchase_timestamp], orders_staging[order_delivered_carrier_date], DAY )
+			)
+		dataType: int64
+		lineageTag: ec2143a5-8de1-45b9-b388-7fda9698fd50
+		summarizeBy: sum
+
+	column 'Approve Days' =
+			IF (
+				NOT ISBLANK ( orders_staging[order_approved_at] ),
+				DATEDIFF ( orders_staging[order_purchase_timestamp], orders_staging[order_approved_at], DAY )
+			)
+		dataType: int64
+		lineageTag: 6651ddf4-e775-4478-b67d-109495ee5716
+		summarizeBy: sum
+
+	column 'Carrier Days' =
+			IF (
+				NOT ISBLANK ( orders_staging[order_delivered_carrier_date] ),
+				DATEDIFF ( orders_staging[order_approved_at], orders_staging[order_delivered_carrier_date], DAY )
+			)
+		dataType: int64
+		lineageTag: adf948ba-7a1f-40e8-a500-b3fed6b804c6
+		summarizeBy: sum
+
+	column 'Lateness Bucket' =
+			IF ( orders_staging[Delivery Days] <= 5, "0-5 days",
+				IF ( orders_staging[Delivery Days] <= 10, "6-10 days",
+					IF ( orders_staging[Delivery Days] <= 20, "11-20 days", "20+ days" ) ) )
+		dataType: string
+		lineageTag: cc460039-722a-4c12-84be-89c1cd26c9bb
+		summarizeBy: none
+
+	column order_weight_kg
+		dataType: double
+		lineageTag: 641b8e3b-5c15-438d-8b08-2c352fa4bd25
+		summarizeBy: sum
+		sourceColumn: order_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition orders_staging = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_orders = Source{[Schema="dbo",Item="orders"]}[Data]
+				in
+				   dbo_orders
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
