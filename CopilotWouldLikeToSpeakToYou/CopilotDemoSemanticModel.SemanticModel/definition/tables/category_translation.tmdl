@@ -1,0 +1,31 @@
+table category_translation
+	lineageTag: d4b15952-cf2e-4760-8d27-02693e6a9566
+
+	column 'Product Category'
+		dataType: string
+		lineageTag: 69f279a9-be25-498c-9e9f-ab0bb48fda7b
+		summarizeBy: none
+		sourceColumn: Product Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_name_english
+		dataType: string
+		lineageTag: c3b33cf2-7003-4002-984e-d0123f18f59f
+		summarizeBy: none
+		sourceColumn: product_category_name_english
+
+		annotation SummarizationSetBy = Automatic
+
+	partition category_translation = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_category_translation = Source{[Schema="dbo",Item="category_translation"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(dbo_category_translation,{{"product_category_name", "Product Category"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

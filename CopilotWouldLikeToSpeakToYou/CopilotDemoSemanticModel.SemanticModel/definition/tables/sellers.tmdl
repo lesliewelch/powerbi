@@ -1,0 +1,140 @@
+table sellers
+	lineageTag: d516df37-2c11-49f8-9fcc-2feb407b8115
+
+	measure 'Seller Delivery Rank' =
+			
+			RANKX (
+			    ALL ( sellers[Seller] ),
+			    CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) ),
+			    ,
+			    ASC
+			)
+		formatString: 0
+		lineageTag: a00c92e0-1bc9-4e3f-8d6b-a836f0e8247d
+
+	measure 'Delivery Rank' = RANKX ( ALL ( sellers[Seller] ), CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) ), , ASC )
+		formatString: 0
+		lineageTag: a5b840c7-c4c7-429a-b4cd-2e8c329a3c87
+
+	measure 'Delivery Percentile' =
+			
+			VAR ThisAvg = CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) )
+			RETURN
+			DIVIDE (
+			    COUNTROWS (
+			        FILTER (
+			            ADDCOLUMNS ( ALL ( sellers[Seller] ), "@a", CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) ) ),
+			            [@a] <= ThisAvg
+			        )
+			    ),
+			    CALCULATE ( DISTINCTCOUNT ( sellers[Seller] ), ALL ( sellers ) )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0b155fe9-e633-4533-abaf-76ff617d218c
+
+	measure 'Sourcing Options' =
+			
+			COUNTROWS (
+			    FILTER (
+			        CROSSJOIN (
+			            SUMMARIZE ( orders_staging,  orders_staging[order_id],  orders_staging[order_weight_kg] ),
+			            SUMMARIZE ( sellers, sellers[Seller], sellers[fulfillment_capacity] )
+			        ),
+			        orders_staging[order_weight_kg] <= sellers[fulfillment_capacity]
+			    )
+			)
+		lineageTag: 4d430008-9332-4744-82bc-927d5085aaa0
+
+	measure 'Avg Seller Delivery Percentile' =
+			
+			AVERAGEX (
+			    VALUES ( sellers[Seller] ),
+			    VAR SellerAvg = CALCULATE ( AVERAGE ( orders_staging[Delivery Days] ) )
+			    VAR FasterOrders =
+			        CALCULATE (
+			            COUNTROWS ( orders_staging ),
+			            FILTER ( ALL ( orders_staging ), orders_staging[Delivery Days] <= SellerAvg )
+			        )
+			    RETURN DIVIDE ( FasterOrders, CALCULATE ( COUNTROWS ( orders_staging ), ALL ( orders_staging ) ) )
+			)
+		lineageTag: 74b6fcbf-0e6a-4d68-be26-11bf50484a61
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Seller
+		dataType: string
+		lineageTag: 1a1526a6-eba1-400a-9835-af1134e02755
+		summarizeBy: none
+		sourceColumn: Seller
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_zip_code_prefix
+		dataType: string
+		lineageTag: 3312d0b3-5242-4257-9e19-590858b775a9
+		summarizeBy: none
+		sourceColumn: seller_zip_code_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_city
+		dataType: string
+		lineageTag: 85003ad4-e6ae-48e6-852f-66a011f2b662
+		summarizeBy: none
+		sourceColumn: seller_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_state
+		dataType: string
+		lineageTag: aac374d6-6a1f-46b2-b8a8-9efb082a2b11
+		summarizeBy: none
+		sourceColumn: seller_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: b203ba44-36c5-4df0-bcfc-1936733a4507
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: 308ef50d-78ec-4ff5-a7a2-bc2c9a4c9abd
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: c23fe7ad-d7dc-4a8d-9279-b70d027bde3a
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column fulfillment_capacity
+		dataType: int64
+		formatString: 0
+		lineageTag: bbd2c99e-5b7d-4a9f-bfd9-bfb6dda7ed1a
+		summarizeBy: none
+		sourceColumn: fulfillment_capacity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sellers = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_sellers = Source{[Schema="dbo",Item="sellers"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(dbo_sellers,{{"seller_id", "Seller"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

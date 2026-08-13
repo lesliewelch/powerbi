@@ -1,0 +1,349 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1228.814126980677,
+            "y": 368.4748351857582
+          },
+          "nodeIndex": "category_translation",
+          "nodeLineageTag": "d4b15952-cf2e-4760-8d27-02693e6a9566",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1391.59105482179,
+            "y": 1056.2286314682906
+          },
+          "nodeIndex": "customers",
+          "nodeLineageTag": "87ed1e4e-5cf1-4266-84ad-ac2a1b8e32fd",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1478.4807936473437,
+            "y": 20.102738120817662
+          },
+          "nodeIndex": "geolocation",
+          "nodeLineageTag": "2f04371d-33b5-4fef-a0e2-04c02efe220c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 817.67180621855141,
+            "y": 118.33333333333334
+          },
+          "nodeIndex": "order_items",
+          "nodeLineageTag": "8c548ce7-2610-4195-bd36-72960e1fbae8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 6.6666666666666572,
+            "y": 338.77916914378432
+          },
+          "nodeIndex": "order_payments",
+          "nodeLineageTag": "180b024d-8f9f-487f-b6e2-5e5d628151ac",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 80.030499312947086,
+            "y": 10.308214362452986
+          },
+          "nodeIndex": "order_reviews",
+          "nodeLineageTag": "6c8cbf8a-425b-459f-999b-f22760023937",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1195.9206462949212,
+            "y": 18.436071454150991
+          },
+          "nodeIndex": "products",
+          "nodeLineageTag": "b9ae9131-8613-472c-860d-638737248ee1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 660.38237045106666,
+            "y": 547.43607145415081
+          },
+          "nodeIndex": "sellers",
+          "nodeLineageTag": "d516df37-2c11-49f8-9fcc-2feb407b8115",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 251.59062903560721,
+            "y": 889.23675220137773
+          },
+          "nodeIndex": "orders_staging",
+          "nodeLineageTag": "f9aa8a40-a90c-4cd5-af53-1a2abff445b7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 2089.814126980677,
+            "y": 341.72961334040326
+          },
+          "nodeIndex": "order_status_lookup",
+          "nodeLineageTag": "05a96b0b-91b0-463c-bd60-98eb046940b5",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 899.14746031401035,
+            "y": 844.06294667373675
+          },
+          "nodeIndex": "orders",
+          "nodeLineageTag": "7d076f5f-9163-47b2-87ae-583a1444ed1b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 2323.814126980677,
+            "y": 391.72961334040326
+          },
+          "nodeIndex": "sellers_zip_lookup",
+          "nodeLineageTag": "b3a9f98d-01b0-4451-8d1b-7bf7dfe91107",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 9
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 60,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1351.090600172729,
+            "y": 417.99610547167504
+          },
+          "nodeIndex": "category_translation",
+          "nodeLineageTag": "d4b15952-cf2e-4760-8d27-02693e6a9566",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 149.03897568066941,
+            "y": 661.99221094335007
+          },
+          "nodeIndex": "customers",
+          "nodeLineageTag": "87ed1e4e-5cf1-4266-84ad-ac2a1b8e32fd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1635.090600172729,
+            "y": 393.99610547167504
+          },
+          "nodeIndex": "geolocation",
+          "nodeLineageTag": "2f04371d-33b5-4fef-a0e2-04c02efe220c",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 769.76488496953357,
+            "y": 306.22120766261747
+          },
+          "nodeIndex": "order_items",
+          "nodeLineageTag": "8c548ce7-2610-4195-bd36-72960e1fbae8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 558.47173532688043,
+            "y": 659.02614359271934
+          },
+          "nodeIndex": "order_payments",
+          "nodeLineageTag": "180b024d-8f9f-487f-b6e2-5e5d628151ac",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 295.46100925756593,
+            "y": -24.286862607994181
+          },
+          "nodeIndex": "order_reviews",
+          "nodeLineageTag": "6c8cbf8a-425b-459f-999b-f22760023937",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 302.9837255726344
+          },
+          "nodeIndex": "order_status_lookup",
+          "nodeLineageTag": "05a96b0b-91b0-463c-bd60-98eb046940b5",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 347.12041163992774,
+            "y": 304.7158935917945
+          },
+          "nodeIndex": "orders",
+          "nodeLineageTag": "7d076f5f-9163-47b2-87ae-583a1444ed1b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 650.60983188010994,
+            "y": -50
+          },
+          "nodeIndex": "orders_staging",
+          "nodeLineageTag": "f9aa8a40-a90c-4cd5-af53-1a2abff445b7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1117.0906001727292,
+            "y": 445.63948608726582
+          },
+          "nodeIndex": "products",
+          "nodeLineageTag": "b9ae9131-8613-472c-860d-638737248ee1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1059.6735702486753,
+            "y": 88.33067727994603
+          },
+          "nodeIndex": "sellers",
+          "nodeLineageTag": "d516df37-2c11-49f8-9fcc-2feb407b8115",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1919.090600172729,
+            "y": 441.99610547167504
+          },
+          "nodeIndex": "sellers_zip_lookup",
+          "nodeLineageTag": "b3a9f98d-01b0-4451-8d1b-7bf7dfe91107",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 62.7851982849286,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

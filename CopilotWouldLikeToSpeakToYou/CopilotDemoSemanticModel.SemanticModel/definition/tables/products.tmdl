@@ -1,0 +1,126 @@
+table products
+	lineageTag: b9ae9131-8613-472c-860d-638737248ee1
+
+	column product_id
+		dataType: string
+		lineageTag: e92197fe-d1f1-4189-ac11-ee9045fedb9e
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name_lenght
+		dataType: int64
+		formatString: 0
+		lineageTag: 9afc71ae-6089-4115-9b9f-e374eac857fb
+		summarizeBy: none
+		sourceColumn: product_name_lenght
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_description_lenght
+		dataType: int64
+		formatString: 0
+		lineageTag: 366f0c65-ebdc-40ae-8f18-feb47ec463b0
+		summarizeBy: none
+		sourceColumn: product_description_lenght
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_photos_qty
+		dataType: int64
+		formatString: 0
+		lineageTag: 96066e6f-1fc8-4024-99e2-2b7797f2d52e
+		summarizeBy: none
+		sourceColumn: product_photos_qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_weight_g
+		dataType: int64
+		formatString: 0
+		lineageTag: 24f79adc-6724-4a7d-950f-6090f225cb9b
+		summarizeBy: none
+		sourceColumn: product_weight_g
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_length_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 525332a0-a1d2-4c26-ace9-71531e08677b
+		summarizeBy: none
+		sourceColumn: product_length_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_height_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: fa7fd909-60f2-4667-bd49-592bb3f405ab
+		summarizeBy: none
+		sourceColumn: product_height_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_width_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 7229f46e-2aea-4848-ac24-f8811f6fb952
+		summarizeBy: none
+		sourceColumn: product_width_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: string
+		lineageTag: 8e670502-f49f-43b8-8cf3-a424fcc2828c
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: f515e60f-571c-4fdb-9c68-0d67d7014833
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: 28544dc1-c147-4a99-bc14-6d0646a2220a
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_name
+		dataType: string
+		lineageTag: bf1f1244-7470-411b-bda3-a54c86a04dd2
+		summarizeBy: none
+		sourceColumn: product_category_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition products = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_products = Source{[Schema="dbo",Item="products"]}[Data],
+				    #"Filled Down" = Table.FillDown(dbo_products,{"product_category_name"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filled Down",{{"product_weight_g", Int64.Type}}),
+				    #"Replaced Errors" = Table.ReplaceErrorValues(#"Changed Type", {{"product_weight_g", 0}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Errors", {"product_category_name"}, category_translation, {"Product Category"}, "category_translation", JoinKind.LeftOuter),
+				    #"Expanded category_translation" = Table.ExpandTableColumn(#"Merged Queries", "category_translation", {"Product Category", "product_category_name_english"}, {"category_translation.Product Category", "category_translation.product_category_name_english"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded category_translation",{"product_category_name", "category_translation.Product Category"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"category_translation.product_category_name_english", "product_category_name"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

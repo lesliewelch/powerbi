@@ -1,0 +1,122 @@
+table order_items
+	lineageTag: 8c548ce7-2610-4195-bd36-72960e1fbae8
+
+	measure 'Total Freight' = SUM ( order_items[freight_value] )
+		lineageTag: 0ec136ec-3e83-4e25-9e25-947428ca971b
+
+	measure 'Avg freight value' = AVERAGE ( order_items[freight_value] )
+		lineageTag: 98c3d485-e58e-4524-9aad-3c9e604e279e
+
+	column order_id
+		dataType: string
+		lineageTag: f2d6d7d8-5db9-4454-97b7-a298c210f828
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a4d6c378-004b-4764-99a8-44da125fdf78
+		summarizeBy: sum
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: a33e834b-c9d7-44bc-ae8c-7d2c15ac73e8
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_id
+		dataType: string
+		lineageTag: d6be311d-0b28-4ad7-a5e8-20ba6b54d864
+		summarizeBy: none
+		sourceColumn: seller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipping_limit_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ef3aff19-1cbd-43d3-9cc4-83906c59f648
+		summarizeBy: none
+		sourceColumn: shipping_limit_date
+
+		variation Variation
+			isDefault
+			relationship: fe70c7b3-02e5-4ebf-a864-dce5a23b3d96
+			defaultHierarchy: LocalDateTable_0f4a8783-df80-4f42-829a-ff818cd7c049.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: double
+		lineageTag: 4eee3f8e-b778-4227-8123-a71052442602
+		summarizeBy: sum
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column freight_value
+		dataType: double
+		lineageTag: 84faacb1-1b62-448e-aa50-5d13e8277670
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column created_at
+		dataType: string
+		lineageTag: 1c23cfed-a40b-488e-b650-3c530ab62c69
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: a0b81eaf-9eca-4fc3-8045-0f8cea838c39
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		lineageTag: 52bcf40c-85d3-41ab-90df-74301fd942d3
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	partition order_items = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("sql-datacopilotdemo-lw.database.windows.net", "datacopilotdemo"),
+				    dbo_order_items = Source{[Schema="dbo",Item="order_items"]}[Data],
+				    #"Added Custom" = Table.AddColumn(dbo_order_items, "Freight Band", each if [freight_value] > 50 then "High" else if [freight_value] > 20 then "Medium" else "Low"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Freight Band", type text}}),
+				    dbo_products = Source{[Schema="dbo",Item="products"]}[Data],
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"product_id"}, dbo_products, {"product_id"}, "products", JoinKind.LeftOuter),
+				    #"Expanded products" = Table.ExpandTableColumn(#"Merged Queries", "products", {"product_category_name", "product_name_lenght", "product_description_lenght", "product_photos_qty", "product_weight_g", "product_length_cm", "product_height_cm", "product_width_cm", "created_at", "updated_at", "created_by"}, {"products.product_category_name", "products.product_name_lenght", "products.product_description_lenght", "products.product_photos_qty", "products.product_weight_g", "products.product_length_cm", "products.product_height_cm", "products.product_width_cm", "products.created_at", "products.updated_at", "products.created_by"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded products",{"products.product_name_lenght", "products.product_description_lenght", "products.product_photos_qty"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Removed Columns",{"products.created_at", "products.updated_at", "products.created_by"}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Removed Columns1",{"products.product_length_cm", "products.product_height_cm", "products.product_width_cm"}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Removed Columns2",{"products.product_category_name", "products.product_weight_g", "Freight Band"})
+				in
+				    #"Removed Columns3"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
